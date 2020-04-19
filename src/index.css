@@ -1,0 +1,18 @@
+.debug-panel {
+  z-index: 10000 !important;
+  /* display: none !important; */
+}
+
+.debug-panel .pane {
+  background: #111 !important;
+  width: 304px !important;
+}
+
+.debug-panel .label,
+.debug-panel .move {
+  color: #eee !important;
+}
+
+.debug-panel .json {
+  color: #ccc !important;
+}

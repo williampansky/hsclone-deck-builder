@@ -1,2 +1,5 @@
-# hsclone-deck-builder
-Deck builder of HSclone repo.
+# HSclone Deck Builder
+
+## MVP
+
+- Build and save various decks to localStorage.
