@@ -6,7 +6,6 @@ import Card from 'components/Card';
 import Deck from 'components/Deck';
 import exists from 'utils/element.exists';
 import CARDCLASS from 'enums/cardClass.enums';
-// child components
 
 export default function DeckBuilder({ cardClass }) {
   const [database, setDatabase] = useState(null);
@@ -36,11 +35,6 @@ export default function DeckBuilder({ cardClass }) {
       if (a.name > b.name) return 1;
       if (a.name < b.name) return -1;
     });
-    // return arr
-    //   .sort((a, b) => a.cost - b.cost)
-    //   .sort((a, b) =>
-    //     a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
-    //   );
   }
 
   const addSelectedCardsCallback = useCallback(
@@ -114,38 +108,37 @@ export default function DeckBuilder({ cardClass }) {
               {database.map((card, index) => {
                 return (
                   <div key={index}>
-                    <div onClick={() => addSelectedCardsCallback(card)}>
-                      <Card
-                        artist={card.artist}
-                        attack={card.attack}
-                        cardClass={card.cardClass}
-                        collectible={card.collectible}
-                        cost={card.cost}
-                        elite={card.elite}
-                        entourage={card.entourage}
-                        flavor={card.flavor}
-                        goldenImageSrc={card.goldenImageSrc}
-                        health={card.health}
-                        hideStats={card.hideStats}
-                        howToEarn={card.howToEarn}
-                        howToEarnGolden={card.howToEarnGolden}
-                        id={card.id}
-                        isGolden={card.isGolden}
-                        mechanics={card.mechanics}
-                        name={card.name}
-                        playRequirements={card.playRequirements}
-                        race={card.race}
-                        rarity={card.rarity}
-                        set={card.set}
-                        sounds={card.sounds}
-                        spellDamage={card.spellDamage}
-                        spellType={card.spellType}
-                        targetingArrowText={card.targetingArrowText}
-                        text={card.text}
-                        type={card.type}
-                        warcryNumber={card.warcryNumber}
-                      />
-                    </div>
+                    <Card
+                      artist={card.artist}
+                      attack={card.attack}
+                      cardClass={card.cardClass}
+                      collectible={card.collectible}
+                      cost={card.cost}
+                      elite={card.elite}
+                      entourage={card.entourage}
+                      flavor={card.flavor}
+                      goldenImageSrc={card.goldenImageSrc}
+                      health={card.health}
+                      hideStats={card.hideStats}
+                      howToEarn={card.howToEarn}
+                      howToEarnGolden={card.howToEarnGolden}
+                      id={card.id}
+                      isGolden={card.isGolden}
+                      mechanics={card.mechanics}
+                      name={card.name}
+                      playRequirements={card.playRequirements}
+                      race={card.race}
+                      rarity={card.rarity}
+                      set={card.set}
+                      sounds={card.sounds}
+                      spellDamage={card.spellDamage}
+                      spellType={card.spellType}
+                      targetingArrowText={card.targetingArrowText}
+                      text={card.text}
+                      type={card.type}
+                      warcryNumber={card.warcryNumber}
+                      onClick={() => addSelectedCardsCallback(card)}
+                    />
                   </div>
                 );
               })}
@@ -233,11 +226,8 @@ const Grid = styled.article`
     margin-bottom: 20px;
   }
 
-  & > div > div {
-    cursor: pointer;
-  }
-
   & > div .card__v3 {
+    cursor: pointer;
     margin: 0 auto;
   }
 
