@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import CardBack from 'components/cards/CardBack';
-import PLAYER_BOARDS from 'enums/playerBoards.enums';
 import styled from 'styled-components';
 import placeholdersArray from 'placeholders-array';
+import RARITY from 'enums/rarity.enums';
 
 export default function DeckItem({
   amount,
@@ -36,6 +35,11 @@ export default function DeckItem({
             <div className={'text__value'}>{amount}</div>
           </div>
         ) : null}
+        {elite === true ? (
+          <div className={'item__amount'}>
+            <div className={'text__value'}>Elite</div>
+          </div>
+        ) : null}
       </div>
       <div className={'item__image'} />
     </Item>
@@ -53,6 +57,21 @@ DeckItem.propTypes = {
   set: PropTypes.string
 };
 
+function rarityColor(string) {
+  switch (string) {
+    case RARITY[5]:
+      return '#fa2618';
+    case RARITY[4]:
+      return '#dd4af2';
+    case RARITY[3]:
+      return '#33fa17';
+    case RARITY[2]:
+      return '#26d3f5';
+    default:
+      return '#7f827f';
+  }
+}
+
 const Item = styled.div`
   display: flex;
   flex-flow: row nowrap;
@@ -64,7 +83,11 @@ const Item = styled.div`
   font-family: 'Carter One', sans-serif;
   width: 100%;
   font-size: 14px;
+  z-index: 1;
   opacity: ${p => (p.amount === 0 ? '0.35' : 1)};
+  pointer-events: none;
+  border-left: 4px solid;
+  border-color: ${p => rarityColor(p.rarity)};
 
   .item__cost {
     display: flex;

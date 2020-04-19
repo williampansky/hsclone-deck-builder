@@ -1,6 +1,6 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
-import DeckBuilderWrapper from 'components/DeckBuilderWrapper';
+import DeckBuilder from 'components/DeckBuilder';
 import './index.css';
 import './styles/game.scss';
 
@@ -11,7 +11,7 @@ class App extends React.Component {
   }
 
   render() {
-    return <DeckBuilderWrapper />;
+    return <DeckBuilder />;
   }
 }
 

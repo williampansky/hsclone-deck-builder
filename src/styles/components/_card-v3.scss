@@ -110,8 +110,8 @@
   .card__attack {
     font-size: 32px;
     position: absolute;
-    bottom: -5px;
-    left: -15px;
+    bottom: -10px;
+    left: -18px;
     height: 70px;
     width: 70px;
     @include display-flex(column nowrap, center, center);
@@ -130,7 +130,7 @@
   .card__health {
     font-size: 32px;
     position: absolute;
-    bottom: -5px;
+    bottom: -8px;
     right: -14px;
     height: 58px;
     width: 58px;
@@ -152,14 +152,15 @@
     height: 44px;
     top: -11px;
     left: 43.55%;
+    z-index: 1;
   }
 
   .card__image__wrapper {
     background-color: #191919;
     position: absolute;
-    width: 95%;
-    height: 62%;
-    margin: 45px 8px 0 12px;
+    width: 93%;
+    height: 58%;
+    margin: 36px 8px 0 12px;
     overflow: hidden;
     z-index: -1;
   }
