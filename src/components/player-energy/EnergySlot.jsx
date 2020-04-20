@@ -1,36 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function EnergySlot({ available, filled, number, willCost }) {
+export default function EnergySlot({ active, number, value, onClick }) {
   return (
-    <div
-      data-file="player-energy/EnergySlot"
-      className={['energy-slot', willCost ? '--will-cost' : ''].join(' ')}
-    >
+    <button className={'energy-slot'} onClick={onClick} value={value}>
       <div className={'text__value--wrapper'}>
-        {filled ? (
-          <div className={'text__value'} data-value={number}>
-            {number}
-          </div>
-        ) : (
-          ''
-        )}
+        <div className={'text__value'} data-value={number}>
+          {number === 10 ? `10+` : number}
+        </div>
       </div>
 
-      {filled ? (
+      {active === -1 ? (
         <img alt="" src="assets/images/ui/UI_EnergySlot-Available.png" />
-      ) : available && !filled ? (
-        <img alt="" src="assets/images/ui/UI_EnergySlot-Empty.png" />
+      ) : active === number ? (
+        <img alt="" src="assets/images/ui/UI_EnergySlot-Available.png" />
       ) : (
-        <img alt="" src="assets/images/ui/UI_EnergySlot-Locked.png" />
+        <img alt="" src="assets/images/ui/UI_EnergySlot-Empty.png" />
       )}
-    </div>
+    </button>
   );
 }
 
 EnergySlot.propTypes = {
-  available: PropTypes.bool,
-  filled: PropTypes.bool,
-  number: PropTypes.number,
-  willCost: PropTypes.bool
+  active: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onClick: PropTypes.func
 };

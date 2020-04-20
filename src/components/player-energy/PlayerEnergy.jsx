@@ -3,21 +3,25 @@ import PropTypes from 'prop-types';
 import EnergySlot from 'components/player-energy/EnergySlot';
 import styled from 'styled-components';
 
-export default function PlayerEnergy({ energy, selectedCost }) {
-  const { current, total } = energy;
+export default function PlayerEnergy({ active, onClick }) {
   return (
-    <Component data-file="player-energy/PlayerEnergy">
-      <div>
-        {Array.from(Array(10)).map((_, index) => {
-          index = index + 1;
+    <Component>
+      <div className="flex">
+        <EnergySlot
+          active={active}
+          number={`All`}
+          onClick={e => onClick(e)}
+          value={-1}
+        />
+
+        {Array.from(Array(11)).map((_, index) => {
           return (
             <EnergySlot
-              available={total >= index}
-              // empty={current <= index}
-              filled={current >= index}
+              active={active}
               key={index}
               number={index}
-              willCost={selectedCost >= index}
+              onClick={e => onClick(e)}
+              value={index}
             />
           );
         })}
@@ -27,28 +31,30 @@ export default function PlayerEnergy({ energy, selectedCost }) {
 }
 
 PlayerEnergy.propTypes = {
-  energy: PropTypes.shape({
-    current: PropTypes.number,
-    total: PropTypes.number
-  }),
-  selectedCost: PropTypes.number
+  active: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onClick: PropTypes.func
 };
 
 const Component = styled.div`
   align-items: center;
   display: flex;
   flex-flow: column nowrap;
-  font-size: 22px;
+  font-size: 16px;
   font-weight: bold;
   justify-content: center;
-  left: 0;
   margin: 0;
-  position: absolute;
-  right: auto;
-  top: -1100%;
   user-select: none;
+  height: 100%;
+
+  .flex {
+    align-items: center;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+  }
 
   .energy-slot {
+    cursor: pointer;
     align-items: center;
     color: #999;
     display: flex;
@@ -59,6 +65,23 @@ const Component = styled.div`
     overflow: hidden;
     position: relative;
     transition: all 400ms cubic-bezier(0.19, 1, 0.22, 1);
+    background: none;
+    padding: 0;
+    margin: 0;
+    border: 0;
+
+    * {
+      pointer-events: none;
+    }
+
+    & + .energy-slot {
+      margin-left: 8px;
+    }
+
+    &:active,
+    &:focus {
+      outline: none;
+    }
   }
 
   .energy-slot:before {
@@ -75,15 +98,11 @@ const Component = styled.div`
     transition: all 400ms cubic-bezier(0.19, 1, 0.22, 1);
     width: 100%;
     z-index: 2;
-
-    & + .energy-slot {
-      margin-top: 4px;
-    }
   }
 
   .energy-slot img {
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
     z-index: 1;
   }
 

@@ -6,26 +6,31 @@ import Card from 'components/Card';
 import Deck from 'components/Deck';
 import exists from 'utils/element.exists';
 import CARDCLASS from 'enums/cardClass.enums';
+import PlayerEnergy from 'components/player-energy/PlayerEnergy';
 
-export default function DeckBuilder({ cardClass }) {
+export default function DeckBuilder({ selectedCardClass }) {
   const [database, setDatabase] = useState(null);
+  const [cardClass, setCardClass] = useState(selectedCardClass);
   const [selectedCards, setSelectedCards] = useState([]);
+  const [energyFilter, setEnergyFilter] = useState(-1);
 
-  const setDbCallback = useCallback(cardClass => {
+  const setDbCallback = useCallback((cardClass, energyFilter) => {
     const databaseArray = Object.keys(CARD_DATABASE).map(i => CARD_DATABASE[i]);
     setDatabase(
       databaseArray
         .filter(item => {
-          return item.cardClass === cardClass;
+          if (energyFilter === -1) return item.cardClass === cardClass;
+          if (energyFilter === 10) return item.cardClass === cardClass;
+          return item.cardClass === cardClass && item.cost === energyFilter;
         })
         .sort((a, b) => a.cost - b.cost)
     );
   }, []);
 
   useEffect(() => {
-    setDbCallback(cardClass);
+    setDbCallback(cardClass, energyFilter);
     // setDatabase(CARD_DATABASE);
-  }, [cardClass]);
+  }, [cardClass, energyFilter]);
 
   function sortArray(arr) {
     // eslint-disable-next-line array-callback-return
@@ -82,11 +87,32 @@ export default function DeckBuilder({ cardClass }) {
     return amount;
   }
 
+  function handleClass(card, db = selectedCards) {
+    const { id } = card;
+    const cardObj = db.find(o => o.id === id);
+    if (!exists(cardObj)) return;
+    const { _amount, elite } = cardObj;
+    return _amount === 2 || elite === true ? 'locked' : '';
+  }
+
+  function changeCardClass(event) {
+    return setCardClass(event.target.value);
+  }
+
+  function filterDatabaseByEnergy(event) {
+    return setEnergyFilter(parseInt(event.target.value));
+  }
+
   return (
     <React.Fragment>
       <Wrapper>
         <Header>
-          <button>{cardClass}</button>
+          <button onClick={e => changeCardClass(e)} value={selectedCardClass}>
+            {selectedCardClass}
+          </button>
+          <button onClick={e => changeCardClass(e)} value={CARDCLASS[0]}>
+            {CARDCLASS[0]}
+          </button>
         </Header>
 
         <Sidebar>
@@ -107,7 +133,7 @@ export default function DeckBuilder({ cardClass }) {
             <Grid>
               {database.map((card, index) => {
                 return (
-                  <div key={index}>
+                  <div className={handleClass(card)} key={index}>
                     <Card
                       artist={card.artist}
                       attack={card.attack}
@@ -146,18 +172,23 @@ export default function DeckBuilder({ cardClass }) {
           ) : null}
         </GridWrapper>
 
-        <Footer>Footer</Footer>
+        <Footer>
+          <PlayerEnergy
+            active={energyFilter}
+            onClick={e => filterDatabaseByEnergy(e)}
+          />
+        </Footer>
       </Wrapper>
     </React.Fragment>
   );
 }
 
 DeckBuilder.propTypes = {
-  cardClass: PropTypes.string
+  selectedCardClass: PropTypes.string
 };
 
 DeckBuilder.defaultProps = {
-  cardClass: CARDCLASS[2]
+  selectedCardClass: CARDCLASS[2]
 };
 
 const Header = styled.header`
@@ -203,7 +234,7 @@ const Wrapper = styled.main`
 `;
 
 const GridWrapper = styled.div`
-  background: floralwhite;
+  background: #292928;
   position: fixed;
   top: 50px;
   padding: 20px;
@@ -231,6 +262,10 @@ const Grid = styled.article`
     margin: 0 auto;
   }
 
+  & > div .card__v3 {
+    transition: opacity 200ms ease-in-out;
+  }
+
   & > div .card__v3:after {
     content: '';
     border-radius: 12px;
@@ -243,5 +278,20 @@ const Grid = styled.article`
     width: 100%;
     height: 100%;
     z-index: -1;
+    transition: box-shadow 200ms ease-in-out;
+  }
+
+  & > div .card__v3:hover {
+    &:after {
+      box-shadow: 0 0 10px 5px rgba(255, 255, 0, 0.825);
+    }
+  }
+
+  & > div.locked .card__v3 {
+    cursor: not-allowed;
+    opacity: 0.45;
+    &:hover:after {
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.625);
+    }
   }
 `;

@@ -37,7 +37,8 @@ export default function Card({
   text,
   type,
   warcryNumber,
-  dynamicSpellDamageText
+  dynamicSpellDamageText,
+  onClick
 }) {
   const IS_MINION = type === TYPE[1] ? true : false;
   const IS_ITEM = type === TYPE[2] ? true : false;
@@ -72,6 +73,7 @@ export default function Card({
         IS_ITEM ? '--is-item' : '',
         IS_WEAPON ? '--is-weapon' : ''
       ].join(' ')}
+      onClick={onClick}
     >
       <div className={'card__cost'}>
         <div className={'text__value'}>{cost}</div>
