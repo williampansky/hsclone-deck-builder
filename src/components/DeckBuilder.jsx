@@ -7,6 +7,10 @@ import Deck from 'components/Deck';
 import exists from 'utils/element.exists';
 import CARDCLASS from 'enums/cardClass.enums';
 import PlayerEnergy from 'components/player-energy/PlayerEnergy';
+import replaceDynamicText from 'utils/replace-dynamic-text';
+import replaceConstant from 'utils/replace-constants';
+import getConstantDescription from 'utils/get-constant-description';
+import createMarkup from 'utils/createMarkup';
 
 export default function DeckBuilder({ selectedCardClass }) {
   const [database, setDatabase] = useState(null);
@@ -116,12 +120,18 @@ export default function DeckBuilder({ selectedCardClass }) {
     return setModalObject(obj);
   }
 
+  function cardText(string, spellDmg) {
+    const replacedDynamicDmg = replaceDynamicText(string, spellDmg);
+    const replacedSymbols = replaceConstant(replacedDynamicDmg);
+    return replacedSymbols;
+  }
+
   return (
     <React.Fragment>
       <Wrapper>
         <Header>
           <button onClick={e => changeCardClass(e)} value={selectedCardClass}>
-            {selectedCardClass}
+            {replaceConstant(selectedCardClass)}
           </button>
           <button onClick={e => changeCardClass(e)} value={CARDCLASS[0]}>
             {CARDCLASS[0]}
@@ -238,17 +248,73 @@ export default function DeckBuilder({ selectedCardClass }) {
                   warcryNumber={modalObject.warcryNumber}
                 />
                 <div>
-                  <div className="text__value">{modalObject.artist}</div>
-                  <div className="text__value">{modalObject.flavor}</div>
-                  <div className="text__value">{modalObject.howToEarn}</div>
-                  <div className="text__value">{modalObject.mechanics}</div>
                   <div className="text__value">
-                    {modalObject.playRequirements}
+                    <h2 className="name">{modalObject.name}</h2>
                   </div>
-                  <div className="text__value">{modalObject.rarity}</div>
-                  <div className="text__value">{modalObject.set}</div>
                   <div className="text__value">
-                    {modalObject.targetingArrowText}
+                    <p
+                      className="flavor"
+                      dangerouslySetInnerHTML={createMarkup(
+                        cardText(
+                          modalObject.flavor,
+                          modalObject.dynamicSpellDamageText
+                        )
+                      )}
+                    />
+                  </div>
+                  {modalObject.mechanics !== [] ? (
+                    <div className="text__value">
+                      <p className="mechanics">
+                        {replaceConstant(modalObject.mechanics[0])}
+                      </p>
+                      <p className="mechanics mechanics__description">
+                        <small>
+                          {getConstantDescription(modalObject.mechanics[0])}
+                        </small>
+                      </p>
+                    </div>
+                  ) : null}
+                  <div className="text__value">
+                    <ul>
+                      <li>
+                        <strong>Type:</strong> {modalObject.type}
+                      </li>
+                      <li>
+                        <strong>Set:</strong> {modalObject.set}
+                      </li>
+                      <li>
+                        <strong>Rarity:</strong> {modalObject.rarity}
+                      </li>
+                      {modalObject.playRequirements && (
+                        <li>
+                          <strong>Play Requirements:</strong>{' '}
+                          {modalObject.playRequirements}
+                        </li>
+                      )}
+                      {modalObject.targetingArrowText && (
+                        <li>
+                          <strong>Targeting Text:</strong>{' '}
+                          {modalObject.targetingArrowText}
+                        </li>
+                      )}
+                      {modalObject.howToEarn && (
+                        <li>
+                          <strong>How to Earn:</strong> {modalObject.howToEarn}
+                        </li>
+                      )}
+                      {modalObject.artist && (
+                        <li>
+                          <strong>Artist:</strong>{' '}
+                          <a
+                            href={modalObject.artist}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {modalObject.artist}
+                          </a>
+                        </li>
+                      )}
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -265,7 +331,7 @@ DeckBuilder.propTypes = {
 };
 
 DeckBuilder.defaultProps = {
-  selectedCardClass: CARDCLASS[9]
+  selectedCardClass: CARDCLASS[7]
 };
 
 const Header = styled.header`
@@ -382,8 +448,10 @@ const Grid = styled.article`
   & > div.locked .card__v3 {
     cursor: not-allowed;
     opacity: 0.45;
+
+    &:hover:before,
     &:hover:after {
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.625);
+      opacity: 0;
     }
   }
 
@@ -439,13 +507,14 @@ const Modal = styled.div`
     box-sizing: border-box;
     margin: auto;
     width: 75vw;
-    max-width: calc(100% - 0.01px) !important;
+    max-width: 900px !important;
     background: none;
     opacity: 0;
     transform: translateY(-100px);
     transition: 500ms linear;
     transition-property: opacity, transform;
     padding: 30px 30px;
+    cursor: default;
   }
 
   &.open {
@@ -471,5 +540,49 @@ const Modal = styled.div`
 
   .flex > div:nth-child(2) {
     margin-left: 150px;
+  }
+
+  ul {
+    padding: 0 0 0 1.25em;
+  }
+
+  ul li + li {
+    margin-top: 0.465em;
+  }
+
+  ul strong {
+    color: #fff649;
+    margin: 0 0.25em 0 0;
+  }
+
+  ul a {
+    color: white;
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .name {
+    font-size: 1.875em;
+    margin: 0 0 0.625em;
+  }
+
+  .flavor {
+    font-size: 1.25em;
+    margin: 0 0 0.875em;
+    opacity: 0.75;
+  }
+
+  .mechanics {
+    margin: 0 0 0.15em;
+  }
+
+  .mechanics.mechanics__description {
+    margin: 0 0 0.875em;
+    max-width: 80%;
+    opacity: 0.75;
   }
 `;
