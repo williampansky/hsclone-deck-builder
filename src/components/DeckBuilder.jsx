@@ -13,15 +13,20 @@ export default function DeckBuilder({ selectedCardClass }) {
   const [cardClass, setCardClass] = useState(selectedCardClass);
   const [selectedCards, setSelectedCards] = useState([]);
   const [energyFilter, setEnergyFilter] = useState(-1);
+  const [modalObject, setModalObject] = useState(null);
 
   const setDbCallback = useCallback((cardClass, energyFilter) => {
     const databaseArray = Object.keys(CARD_DATABASE).map(i => CARD_DATABASE[i]);
     setDatabase(
       databaseArray
         .filter(item => {
-          if (energyFilter === -1) return item.cardClass === cardClass;
-          if (energyFilter === 10) return item.cardClass === cardClass;
-          return item.cardClass === cardClass && item.cost === energyFilter;
+          if (energyFilter === -1) {
+            return item.cardClass === cardClass;
+          } else if (energyFilter === 10) {
+            return item.cardClass === cardClass && item.cost >= 10;
+          } else {
+            return item.cardClass === cardClass && item.cost === energyFilter;
+          }
         })
         .sort((a, b) => a.cost - b.cost)
     );
@@ -42,8 +47,9 @@ export default function DeckBuilder({ selectedCardClass }) {
     });
   }
 
-  const addSelectedCardsCallback = useCallback(
+  const addSelectedCardCallback = useCallback(
     incomingCard => {
+      if (calculateDeckLength(selectedCards) === 30) return;
       const { id } = incomingCard;
       if (selectedCards.find(o => o.id === id && o.elite === true)) {
         return;
@@ -88,6 +94,7 @@ export default function DeckBuilder({ selectedCardClass }) {
   }
 
   function handleClass(card, db = selectedCards) {
+    if (calculateDeckLength(db) === 30) return 'locked';
     const { id } = card;
     const cardObj = db.find(o => o.id === id);
     if (!exists(cardObj)) return;
@@ -100,7 +107,13 @@ export default function DeckBuilder({ selectedCardClass }) {
   }
 
   function filterDatabaseByEnergy(event) {
+    if (energyFilter === parseInt(event.target.value))
+      return setEnergyFilter(-1);
     return setEnergyFilter(parseInt(event.target.value));
+  }
+
+  function handleTooltipClick(obj) {
+    return setModalObject(obj);
   }
 
   return (
@@ -134,6 +147,12 @@ export default function DeckBuilder({ selectedCardClass }) {
               {database.map((card, index) => {
                 return (
                   <div className={handleClass(card)} key={index}>
+                    <div
+                      className="tooltip"
+                      onClick={() => handleTooltipClick(card)}
+                    >
+                      <div className="text__value">{`?`}</div>
+                    </div>
                     <Card
                       artist={card.artist}
                       attack={card.attack}
@@ -163,7 +182,7 @@ export default function DeckBuilder({ selectedCardClass }) {
                       text={card.text}
                       type={card.type}
                       warcryNumber={card.warcryNumber}
-                      onClick={() => addSelectedCardsCallback(card)}
+                      onClick={() => addSelectedCardCallback(card)}
                     />
                   </div>
                 );
@@ -179,6 +198,64 @@ export default function DeckBuilder({ selectedCardClass }) {
           />
         </Footer>
       </Wrapper>
+
+      <Modal
+        className={modalObject !== null ? 'open' : ''}
+        onClick={() => handleTooltipClick(null)}
+      >
+        {modalObject !== null ? (
+          <React.Fragment>
+            <div className="modal__dialog">
+              <div className="flex">
+                <Card
+                  artist={modalObject.artist}
+                  attack={modalObject.attack}
+                  cardClass={modalObject.cardClass}
+                  collectible={modalObject.collectible}
+                  cost={modalObject.cost}
+                  elite={modalObject.elite}
+                  entourage={modalObject.entourage}
+                  flavor={modalObject.flavor}
+                  goldenImageSrc={modalObject.goldenImageSrc}
+                  health={modalObject.health}
+                  hideStats={modalObject.hideStats}
+                  howToEarn={modalObject.howToEarn}
+                  howToEarnGolden={modalObject.howToEarnGolden}
+                  id={modalObject.id}
+                  isGolden={modalObject.isGolden}
+                  mechanics={modalObject.mechanics}
+                  name={modalObject.name}
+                  playRequirements={modalObject.playRequirements}
+                  race={modalObject.race}
+                  rarity={modalObject.rarity}
+                  set={modalObject.set}
+                  sounds={modalObject.sounds}
+                  spellDamage={modalObject.spellDamage}
+                  spellType={modalObject.spellType}
+                  targetingArrowText={modalObject.targetingArrowText}
+                  text={modalObject.text}
+                  type={modalObject.type}
+                  warcryNumber={modalObject.warcryNumber}
+                />
+                <div>
+                  <div className="text__value">{modalObject.artist}</div>
+                  <div className="text__value">{modalObject.flavor}</div>
+                  <div className="text__value">{modalObject.howToEarn}</div>
+                  <div className="text__value">{modalObject.mechanics}</div>
+                  <div className="text__value">
+                    {modalObject.playRequirements}
+                  </div>
+                  <div className="text__value">{modalObject.rarity}</div>
+                  <div className="text__value">{modalObject.set}</div>
+                  <div className="text__value">
+                    {modalObject.targetingArrowText}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </React.Fragment>
+        ) : null}
+      </Modal>
     </React.Fragment>
   );
 }
@@ -188,7 +265,7 @@ DeckBuilder.propTypes = {
 };
 
 DeckBuilder.defaultProps = {
-  selectedCardClass: CARDCLASS[2]
+  selectedCardClass: CARDCLASS[9]
 };
 
 const Header = styled.header`
@@ -255,6 +332,7 @@ const Grid = styled.article`
 
   & > div {
     margin-bottom: 20px;
+    position: relative;
   }
 
   & > div .card__v3 {
@@ -266,10 +344,10 @@ const Grid = styled.article`
     transition: opacity 200ms ease-in-out;
   }
 
+  & > div .card__v3:before,
   & > div .card__v3:after {
     content: '';
     border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.625);
     position: absolute;
     top: 0;
     right: 0;
@@ -278,12 +356,26 @@ const Grid = styled.article`
     width: 100%;
     height: 100%;
     z-index: -1;
-    transition: box-shadow 200ms ease-in-out;
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+    will-change: opacity;
+  }
+
+  & > div .card__v3:before {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.625);
+  }
+
+  & > div .card__v3:after {
+    box-shadow: 0 0 10px 10px rgba(255, 255, 0, 0.825);
   }
 
   & > div .card__v3:hover {
+    &:before {
+      opacity: 0;
+    }
+
     &:after {
-      box-shadow: 0 0 10px 5px rgba(255, 255, 0, 0.825);
+      opacity: 1;
     }
   }
 
@@ -293,5 +385,91 @@ const Grid = styled.article`
     &:hover:after {
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.625);
     }
+  }
+
+  .tooltip {
+    align-items: center;
+    background: #ddd;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    flex-flow: column nowrap;
+    font-size: 27px;
+    height: 40px;
+    justify-content: center;
+    pointer-events: auto;
+    position: absolute;
+    right: 1%;
+    top: -4%;
+    user-select: none;
+    width: 40px;
+    z-index: 2;
+    transition: opacity, transform 200ms ease-in-out;
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  & > div:hover {
+    z-index: 100;
+
+    .tooltip {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+`;
+
+const Modal = styled.div`
+  display: flex;
+  align-items: flex-start;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  overflow: hidden;
+  padding: 50px 30px;
+  background: rgba(0, 0, 0, 0.875);
+  opacity: 0;
+  transition: opacity 150ms linear;
+
+  .modal__dialog {
+    position: relative;
+    box-sizing: border-box;
+    margin: auto;
+    width: 75vw;
+    max-width: calc(100% - 0.01px) !important;
+    background: none;
+    opacity: 0;
+    transform: translateY(-100px);
+    transition: 500ms linear;
+    transition-property: opacity, transform;
+    padding: 30px 30px;
+  }
+
+  &.open {
+    opacity: 1;
+    z-index: 9000;
+  }
+
+  &.open .modal__dialog {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .card__v3 {
+    transform: scale(1.5);
+  }
+
+  .flex {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .flex > div:nth-child(2) {
+    margin-left: 150px;
   }
 `;
