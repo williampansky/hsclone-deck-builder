@@ -15,7 +15,11 @@ export default function CardGrid({
         return (
           <div className={handleClass(card)} key={index}>
             <div className="tooltip" onClick={() => handleTooltipClick(card)}>
-              <div className="text__value">{`?`}</div>
+              <img
+                alt=""
+                src="assets/images/ui/UI_Tooltip.png"
+                role="presentation"
+              />
             </div>
             <Card
               artist={card.artist}
@@ -155,6 +159,13 @@ const Grid = styled.article`
     transition: opacity, transform 200ms ease-in-out;
     transform: scale(0);
     opacity: 0;
+  }
+
+  .tooltip img {
+    border-radius: 50%;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.625);
+    height: 40px;
+    width: 40px;
   }
 
   & > div:hover {
