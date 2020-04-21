@@ -3,14 +3,14 @@ import { Switch, Route } from 'react-router-dom';
 
 // route views
 import DeckBuilder from 'components/DeckBuilder';
-import TheCardCollectionView from 'layout/TheCardCollectionView';
+import Homepage from 'components/Homepage';
 
-export default function TheMainView() {
+export default function TheDeckBuilderView() {
   return (
     <React.Fragment>
       <Switch>
         <Route path={`/deckbuilder`} component={DeckBuilder} />
-        <Route path={`/`} component={TheCardCollectionView} />
+        <Route path={`/`} component={Homepage} />
       </Switch>
     </React.Fragment>
   );

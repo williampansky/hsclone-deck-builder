@@ -67,7 +67,8 @@ CardGrid.propTypes = {
 };
 
 CardGrid.defaultProps = {
-  database: []
+  database: [],
+  handleClass: () => {}
 };
 
 const Grid = styled.article`
@@ -96,7 +97,7 @@ const Grid = styled.article`
 
   & > div .card__v3:before,
   & > div .card__v3:after {
-    content: '';
+    /* content: ''; */
     border-radius: 12px;
     position: absolute;
     top: 0;
@@ -107,7 +108,7 @@ const Grid = styled.article`
     height: 100%;
     z-index: -1;
     opacity: 0;
-    transition: opacity 200ms ease-in-out;
+    transition: opacity 150ms ease-in-out;
     will-change: opacity;
   }
 
@@ -157,6 +158,7 @@ const Grid = styled.article`
     width: 40px;
     z-index: 2;
     transition: opacity, transform 200ms ease-in-out;
+    will-change: opacity, transform;
     transform: scale(0);
     opacity: 0;
   }
