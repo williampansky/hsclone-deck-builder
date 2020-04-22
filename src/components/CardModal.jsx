@@ -100,54 +100,64 @@ export default function CardModal({
                   />
                 </div>
                 {modalObject.mechanics !== [] ? (
-                  <div className="text__value">
-                    <p className="mechanics">
-                      {replaceConstant(modalObject.mechanics[0])}
-                    </p>
-                    <p className="mechanics mechanics__description">
-                      <small>
-                        {getConstantDescription(modalObject.mechanics[0])}
-                      </small>
-                    </p>
+                  <div className="mechanics__wrapper">
+                    {modalObject.mechanics.map((m, i) => {
+                      return (
+                        <div className="mechanic" key={i}>
+                          <p className="text__value mechanics">
+                            {replaceConstant(m)}
+                          </p>
+                          <p className="mechanics mechanics__description">
+                            <small>{getConstantDescription(m)}</small>
+                          </p>
+                        </div>
+                      );
+                    })}
                   </div>
                 ) : null}
-                <div className="text__value">
+                <div className="info__list">
                   <ul>
                     <li>
-                      <strong>Type:</strong> {modalObject.type}
+                      <strong className="text__value">Type:</strong>{' '}
+                      {modalObject.type}
                     </li>
                     <li>
-                      <strong>Set:</strong> {modalObject.set}
+                      <strong className="text__value">Set:</strong>{' '}
+                      {modalObject.set}
                     </li>
                     <li>
-                      <strong>Rarity:</strong> {modalObject.rarity}
+                      <strong className="text__value">Rarity:</strong>{' '}
+                      {modalObject.rarity}
                     </li>
                     {modalObject.playRequirements && (
                       <li>
-                        <strong>Play Requirements:</strong>{' '}
+                        <strong className="text__value">
+                          Play Requirements:
+                        </strong>{' '}
                         {modalObject.playRequirements}
                       </li>
                     )}
                     {modalObject.targetingArrowText && (
                       <li>
-                        <strong>Targeting Text:</strong>{' '}
+                        <strong className="text__value">Targeting Text:</strong>{' '}
                         {modalObject.targetingArrowText}
                       </li>
                     )}
                     {modalObject.howToEarn && (
                       <li>
-                        <strong>How to Earn:</strong> {modalObject.howToEarn}
+                        <strong className="text__value">How to Earn:</strong>{' '}
+                        {modalObject.howToEarn}
                       </li>
                     )}
                     {modalObject.collectible && (
                       <li>
-                        <strong>Collectible</strong>
+                        <strong className="text__value">Collectible</strong>
                       </li>
                     )}
                   </ul>
                   {modalObject.artist && (
                     <div className="artist">
-                      <strong>Artist:</strong>{' '}
+                      <strong className="text__value">Artist:</strong>{' '}
                       <a
                         href={modalObject.artist}
                         target="_blank"
@@ -326,15 +336,18 @@ const Modal = styled.div`
     }
   }
 
-  .info ul {
+  .info__list ul {
+    color: white;
+    font-family: sans-serif;
     padding: 0 0 0 1.25em;
+    text-transform: capitalize;
   }
 
-  .info ul li + li {
+  .info__list ul li + li {
     margin-top: 0.465em;
   }
 
-  .info strong {
+  .info__list strong {
     color: #fff649;
     margin: 0 0.25em 0 0;
   }
@@ -348,6 +361,11 @@ const Modal = styled.div`
     font-size: 1.25em;
     margin: 0 0 0.875em;
     opacity: 0.75;
+  }
+
+  .mechanics__wrapper {
+    color: white;
+    font-family: sans-serif;
   }
 
   .mechanics {

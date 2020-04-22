@@ -67,8 +67,10 @@ CardGrid.propTypes = {
 };
 
 CardGrid.defaultProps = {
+  addSelectedCardCallback: () => {},
   database: [],
-  handleClass: () => {}
+  handleClass: () => {},
+  handleTooltipClick: () => {}
 };
 
 const Grid = styled.article`

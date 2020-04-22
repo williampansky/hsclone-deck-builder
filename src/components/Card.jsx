@@ -105,16 +105,16 @@ export default function Card({
       {IS_MINION ? (
         race !== RACE[0] ? (
           <div className={'card__type'}>
-            <div>{race}</div>
+            <div>{replaceConstant(race)}</div>
           </div>
         ) : (
           <div className={'card__type'}>
-            <div>{type}</div>
+            <div>{replaceConstant(type)}</div>
           </div>
         )
       ) : (
         <div className={'card__type'}>
-          <div>{type}</div>
+          <div>{replaceConstant(type)}</div>
         </div>
       )}
 

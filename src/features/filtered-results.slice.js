@@ -20,7 +20,13 @@ const filteredResultsSlice = createSlice({
             return item.cardClass === cardClass && item.cost === energyFilter;
           }
         })
-        .sort((a, b) => a.cost - b.cost);
+        .sort((a, b) => {
+          if (a.cost > b.cost) return 1;
+          if (a.cost < b.cost) return -1;
+          if (a.name > b.name) return 1;
+          if (a.name < b.name) return -1;
+          return 1;
+        });
     }
   }
 });
