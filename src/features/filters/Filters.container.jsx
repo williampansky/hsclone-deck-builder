@@ -34,6 +34,7 @@ export default function Filters() {
   return (
     <Component>
       <ClassFilters
+        active={selectedCardClass}
         availableCardClasses={availableCardClasses}
         onClick={event => dispatch(selectClass(event.target.value))}
       />

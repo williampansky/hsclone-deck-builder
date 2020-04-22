@@ -219,7 +219,7 @@ const Modal = styled.div`
   }
 
   .card-wrapper > .card__v3 {
-    animation: scale 450ms ease-out forwards;
+    animation: scale 250ms ease-out forwards;
     box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.625);
     z-index: 1;
 
@@ -256,7 +256,7 @@ const Modal = styled.div`
   }
 
   .transformed-card {
-    animation: rotate 800ms var(--animation-transition-cubic) forwards;
+    animation: rotate 500ms var(--animation-transition-cubic) forwards;
     position: absolute;
     z-index: 0;
     bottom: -4%;
