@@ -26,7 +26,6 @@ export default function Filters() {
     [dispatch]
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setDbCallback(selectedCardClass, selectedEnergyFilter);
   }, [selectedCardClass, selectedEnergyFilter, setDbCallback]);

@@ -9,6 +9,15 @@ let initialState = {
     path: '/',
     metaTitle: 'Your Cards Collection',
     metaDescription: 'Your collection of cards.'
+  },
+  deck: {
+    name: 'CardCollection',
+    order: 0,
+    prompt: 'Your Cards',
+    mobilePrompt: 'Your Cards',
+    path: '/',
+    metaTitle: 'Your Cards Collection',
+    metaDescription: 'Your collection of cards.'
   }
 };
 

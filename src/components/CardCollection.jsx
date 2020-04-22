@@ -9,8 +9,10 @@ import exists from 'utils/element.exists';
 import replaceConstant from 'utils/replace-constants';
 import replaceDynamicText from 'utils/replace-dynamic-text';
 import Filters from 'features/filters/Filters.container';
+import Sidebar from './Sidebar';
 
 export default function CardCollection() {
+  const { selectedCardClass } = useSelector(state => state.filters);
   const filteredResults = useSelector(state => state.filteredResults);
   const database = useSelector(state => state.database);
   const [modalObject, setModalObject] = useState(null);
@@ -33,8 +35,8 @@ export default function CardCollection() {
 
   return (
     <React.Fragment>
-      <Wrapper>
-        <GridWrapper>
+      <Wrapper sidebarActive={true}>
+        <GridWrapper sidebarActive={true}>
           {exists(database) ? (
             <CardGrid
               database={filteredResults}
@@ -44,7 +46,9 @@ export default function CardCollection() {
           ) : null}
         </GridWrapper>
 
-        <Footer>
+        <Sidebar active={true} selectedCardClass={selectedCardClass} />
+
+        <Footer sidebarActive={true}>
           <Filters />
         </Footer>
       </Wrapper>
@@ -83,11 +87,11 @@ const Wrapper = styled.main`
   ${Header},
   ${Footer} {
     position: fixed;
-    width: 100vw;
     left: 0;
     right: 0;
     z-index: 2;
     height: 80px;
+    width: ${p => (p.sidebarActive ? 'calc(100vw - 300px)' : 'calc(100vw)')};
   }
 `;
 
@@ -98,5 +102,5 @@ const GridWrapper = styled.div`
   padding: 20px;
   bottom: 60px;
   overflow-y: auto;
-  width: 100vw;
+  width: ${p => (p.sidebarActive ? 'calc(100vw - 300px)' : 'calc(100vw)')};
 `;
