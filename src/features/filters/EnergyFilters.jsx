@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EnergySlot from 'components/player-energy/EnergySlot';
 import styled from 'styled-components';
+import EnergySlot from 'components/EnergySlot';
 
 export default function PlayerEnergy({ active, onClick }) {
   return (

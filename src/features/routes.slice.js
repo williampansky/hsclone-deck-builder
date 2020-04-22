@@ -2,11 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 let initialState = {
   home: {
-    name: 'DeckBuilder',
-    order: 1,
-    prompt: 'Select a Location',
-    mobilePrompt: 'Select Location',
-    path: '/location'
+    name: 'CardCollection',
+    order: 0,
+    prompt: 'Your Cards',
+    mobilePrompt: 'Your Cards',
+    path: '/',
+    metaTitle: 'Your Cards Collection',
+    metaDescription: 'Your collection of cards.'
   }
 };
 
@@ -16,5 +18,5 @@ const routesSlice = createSlice({
   reducers: {}
 });
 
-export const { setCurrentStep } = routesSlice.actions;
+export const {} = routesSlice.actions;
 export default routesSlice.reducer;

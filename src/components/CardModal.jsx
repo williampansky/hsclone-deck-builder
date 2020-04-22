@@ -225,10 +225,32 @@ const Modal = styled.div`
 
     @keyframes scale {
       from {
-        transform: scale(1);
+        transform: scale(0.75);
       }
       to {
-        transform: scale(1.5);
+        transform: scale(1);
+      }
+    }
+
+    @media (min-width: 960px) {
+      @keyframes scale {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.25);
+        }
+      }
+    }
+
+    @media (min-width: 1200px) {
+      @keyframes scale {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.5);
+        }
       }
     }
   }
@@ -237,18 +259,37 @@ const Modal = styled.div`
     animation: rotate 800ms var(--animation-transition-cubic) forwards;
     position: absolute;
     z-index: 0;
-    /* top: 0;
-    left: 0; */
     bottom: -4%;
     left: -25%;
-    /* translate(-17%, 0.5%) */
 
     @keyframes rotate {
       from {
-        transform: rotate(0deg) scale(1);
+        transform: rotate(0deg) scale(0.75);
       }
       to {
-        transform: rotate(-10deg) scale(1.475);
+        transform: rotate(-10deg) scale(0.95);
+      }
+    }
+
+    @media (min-width: 960px) {
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg) scale(1);
+        }
+        to {
+          transform: rotate(-10deg) scale(1.2);
+        }
+      }
+    }
+
+    @media (min-width: 1200px) {
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg) scale(1);
+        }
+        to {
+          transform: rotate(-10deg) scale(1.475);
+        }
       }
     }
   }
@@ -258,10 +299,17 @@ const Modal = styled.div`
     flex-flow: row nowrap;
     align-items: center;
     justify-content: center;
+
+    @media (min-width: 960px) {
+      margin-left: 100px;
+    }
   }
 
+  /* prettier-ignore */
   .flex > div:nth-child(2) {
-    margin-left: 150px;
+    margin-left: 50px;
+    @media (min-width: 960px) { margin-left: 100px; }
+    @media (min-width: 1200px) { margin-left: 150px; }
   }
 
   .info {

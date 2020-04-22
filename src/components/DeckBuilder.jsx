@@ -7,7 +7,7 @@ import CardGrid from 'components/CardGrid';
 import CardModal from 'components/CardModal';
 import Deck from 'components/Deck';
 import exists from 'utils/element.exists';
-import PlayerEnergy from 'components/player-energy/PlayerEnergy';
+import PlayerEnergy from 'features/filters/EnergyFilters';
 import replaceConstant from 'utils/replace-constants';
 import replaceDynamicText from 'utils/replace-dynamic-text';
 
