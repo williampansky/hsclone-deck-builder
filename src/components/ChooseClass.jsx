@@ -1,0 +1,236 @@
+import React, { useCallback, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import CARD_DATABASE from 'lib/utils/card-databse';
+import CARDCLASS from 'enums/cardClass.enums';
+import CardGrid from 'components/CardGrid';
+import CardModal from 'components/CardModal';
+import Deck from 'components/Deck';
+import exists from 'utils/element.exists';
+import PlayerEnergy from 'features/filters/EnergyFilters';
+import replaceConstant from 'utils/replace-constants';
+import replaceDynamicText from 'utils/replace-dynamic-text';
+import Filters from 'features/filters/Filters.container';
+import { selectClass } from 'features/filters/filters.slice';
+import { newDeck } from 'features/decks/decks.slice';
+import Sidebar from 'components/Sidebar';
+import SidebarActivator from 'components/SidebarActivator';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+
+export default function ChooseClass() {
+  let { deckId } = useParams();
+  let history = useHistory();
+  const dispatch = useDispatch();
+  const { sidebarActive } = useSelector(state => state.sidebar);
+  const { availableCardClasses } = useSelector(state => state.filters);
+  const { selectedCardClass } = useSelector(state => state.filters);
+  const filteredResults = useSelector(state => state.filteredResults);
+  const database = useSelector(state => state.database);
+  const [selectedCards, setSelectedCards] = useState([]);
+  const [modalObject, setModalObject] = useState(null);
+
+  function calculateDeckLength(array) {
+    let amount = 0;
+    array.forEach(obj => {
+      amount = Math.abs(amount + obj._amount);
+    });
+    return amount;
+  }
+
+  function handleClass(card, db = selectedCards) {
+    if (calculateDeckLength(db) === 30) return 'locked';
+    const { id } = card;
+    const cardObj = db.find(o => o.id === id);
+    if (!exists(cardObj)) return;
+    const { _amount, elite } = cardObj;
+    return _amount === 2 || elite === true ? 'locked' : '';
+  }
+
+  function handleTooltipClick(obj) {
+    return setModalObject(obj);
+  }
+
+  function cardText(string, spellDmg) {
+    const replacedDynamicDmg = replaceDynamicText(string, spellDmg);
+    const replacedSymbols = replaceConstant(replacedDynamicDmg);
+    return replacedSymbols;
+  }
+
+  function handleClick(string, param = deckId) {
+    dispatch(selectClass(string));
+    dispatch(
+      newDeck({
+        deckId: param,
+        name: param,
+        cardClass: string
+      })
+    );
+    history.push(`/decks/${param}`);
+  }
+
+  function imageSrc(string) {
+    return `url(assets/images/classes/${string.replace(
+      /(%)/g,
+      ''
+    )}/DEFAULT.jpg)`;
+  }
+
+  return (
+    <React.Fragment>
+      <Wrapper sidebarActive={sidebarActive}>
+        <GridWrapper sidebarActive={sidebarActive}>
+          <ClassGrid>
+            {availableCardClasses
+              .filter(obj => obj.value !== CARDCLASS[0])
+              .map((obj, idx) => {
+                return (
+                  <div
+                    className="class__item"
+                    key={idx}
+                    onClick={() => handleClick(obj.value, deckId)}
+                  >
+                    <div
+                      className="avatar"
+                      style={{ backgroundImage: imageSrc(obj.value) }}
+                    />
+                    <div className="class__name">
+                      <h2 className="text__value">{obj.name}</h2>
+                    </div>
+                  </div>
+                );
+              })}
+          </ClassGrid>
+        </GridWrapper>
+
+        <Sidebar active={sidebarActive} selectedCardClass={selectedCardClass} />
+
+        <Footer sidebarActive={sidebarActive}>
+          <Filters />
+          <SidebarActivator active={sidebarActive} />
+        </Footer>
+      </Wrapper>
+    </React.Fragment>
+  );
+}
+
+ChooseClass.propTypes = {
+  selectedCardClass: PropTypes.string
+};
+
+ChooseClass.defaultProps = {
+  selectedCardClass: CARDCLASS[5]
+};
+
+const Header = styled.header`
+  background: #444;
+  top: 0;
+  user-select: none;
+`;
+
+const Footer = styled.footer`
+  background: #444;
+  bottom: 0;
+  user-select: none;
+  padding: 0 10px;
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+`;
+
+const Wrapper = styled.main`
+  user-select: none;
+
+  ${Header},
+  ${Footer} {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    height: 80px;
+    width: ${p => (p.sidebarActive ? 'calc(100vw - 300px)' : 'calc(100vw)')};
+    transition: width 150ms var(--animation-transition-cubic);
+  }
+`;
+
+const GridWrapper = styled.div`
+  background: #292928;
+  position: fixed;
+  top: 0;
+  padding: 20px;
+  bottom: 60px;
+  overflow-y: auto;
+  width: ${p => (p.sidebarActive ? 'calc(100vw - 300px)' : 'calc(100vw)')};
+  transition: width 150ms var(--animation-transition-cubic);
+`;
+
+const ClassGrid = styled.div`
+  display: grid;
+  margin: 0 auto;
+  padding: 20px 0;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(20vw, 1fr));
+
+  .class__item {
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+  }
+
+  .class__item .class__name {
+    margin: 0;
+    position: absolute;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    transition: opacity 150ms ease-in-out;
+    will-change: opacity;
+
+    h2 {
+      margin: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    &:after {
+      background: rgba(0, 0, 0, 0.45);
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 150ms ease-in-out;
+      will-change: opacity;
+    }
+  }
+
+  .class__item .avatar {
+    height: 250px;
+    width: 100%;
+    max-width: 100%;
+    image-rendering: pixelated;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .class__item:hover {
+    .class__name,
+    .class__name:after {
+      opacity: 1;
+    }
+  }
+`;

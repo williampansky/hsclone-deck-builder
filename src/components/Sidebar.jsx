@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import CARD_DATABASE from 'lib/utils/card-databse';
 import CARDCLASS from 'enums/cardClass.enums';
 import CardGrid from 'components/CardGrid';
 import CardModal from 'components/CardModal';
+import DeckCollection from 'components/DeckCollection';
+import DeckSidebar from 'components/DeckSidebar';
 import Deck from 'components/Deck';
 import exists from 'utils/element.exists';
 import PlayerEnergy from 'features/filters/EnergyFilters';
@@ -21,7 +24,11 @@ export default function Sidebar({ active, selectedCardClass }) {
   }
 
   return (
-    <Component active={true}>
+    <Component active={active}>
+      <Switch>
+        <Route path={`/decks/:deckId`} component={DeckSidebar} />
+        <Route path={`/`} component={DeckCollection} />
+      </Switch>
       {/* <Deck
             data={selectedCards}
             length={calculateDeckLength(selectedCards)}
@@ -42,7 +49,7 @@ Sidebar.propTypes = {
 };
 
 const Component = styled.aside`
-  background: red;
+  background: #1e1e1e;
   position: fixed;
   right: 0;
   top: 0;
@@ -50,6 +57,7 @@ const Component = styled.aside`
   height: 100%;
   z-index: 3;
   transform: ${p => (p.active ? 'translateX(0)' : 'translateX(100%)')};
+  transition: transform 150ms var(--animation-transition-cubic);
 
   .background {
     height: 100%;

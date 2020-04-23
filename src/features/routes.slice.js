@@ -11,13 +11,13 @@ let initialState = {
     metaDescription: 'Your collection of cards.'
   },
   deck: {
-    name: 'CardCollection',
+    name: 'NewDeck',
     order: 0,
-    prompt: 'Your Cards',
-    mobilePrompt: 'Your Cards',
-    path: '/',
-    metaTitle: 'Your Cards Collection',
-    metaDescription: 'Your collection of cards.'
+    prompt: 'New Deck',
+    mobilePrompt: 'New Deck',
+    path: '/decks/new',
+    metaTitle: 'Create new deck',
+    metaDescription: 'Create a new deck of cards.'
   }
 };
 

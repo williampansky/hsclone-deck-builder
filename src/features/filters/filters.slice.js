@@ -3,7 +3,9 @@ import CARDCLASS from 'enums/cardClass.enums';
 import replaceConstant from 'utils/replace-constants';
 
 let initialState = {
-  selectedCardClass: CARDCLASS[1],
+  selectedCardClass: localStorage.getItem('selectedCardClass')
+    ? localStorage.getItem('selectedCardClass')
+    : CARDCLASS[1],
   selectedEnergyFilter: -1,
   availableCardClasses: [
     { _order: 1, name: replaceConstant(CARDCLASS[1]), value: CARDCLASS[1] },

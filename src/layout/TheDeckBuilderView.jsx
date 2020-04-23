@@ -1,16 +1,20 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useParams } from 'react-router-dom';
 
 // route views
-import DeckBuilder from 'components/DeckBuilder';
-import Homepage from 'components/Homepage';
+import DeckBuilder from 'components/DeckBuilderV2';
+import ChooseClass from 'components/ChooseClass';
+import { useSelector } from 'react-redux';
 
 export default function TheDeckBuilderView() {
+  const decks = useSelector(s => s.decks);
+  let { deckId } = useParams();
+
   return (
     <React.Fragment>
       <Switch>
-        <Route path={`/deckbuilder`} component={DeckBuilder} />
-        <Route path={`/`} component={Homepage} />
+        <Route path={`/decks/:deckId/new`} component={ChooseClass} />
+        <Route path={`/decks/:deckId`} component={DeckBuilder} />
       </Switch>
     </React.Fragment>
   );

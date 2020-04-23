@@ -4,8 +4,9 @@ import { Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // route views
-import DeckBuilder from 'components/DeckBuilder';
+import LocalStorageHandler from 'components/LocalStorageHandler';
 import TheCardCollectionView from 'layout/TheCardCollectionView';
+import TheDeckBuilderView from './TheDeckBuilderView';
 
 export default function TheMainView() {
   const routes = useSelector(state => state.routes);
@@ -18,9 +19,11 @@ export default function TheMainView() {
       </Helmet>
 
       <Switch>
-        {/* <Route path={`/deckbuilder`} component={DeckBuilder} /> */}
+        <Route path={`/decks`} component={TheDeckBuilderView} />
         <Route path={routes.home.path} component={TheCardCollectionView} />
       </Switch>
+
+      <LocalStorageHandler />
     </React.Fragment>
   );
 }

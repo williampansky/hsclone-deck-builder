@@ -1,47 +1,99 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { SizeMe } from 'react-sizeme';
 import useElementSize from 'react-element-size';
+import { Switch, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import CARDCLASS from 'enums/cardClass.enums';
+import replaceConstant from 'utils/replace-constants';
+import { useHistory, useParams } from 'react-router-dom';
 
-const Buttons = ({ active, availableCardClasses, onClick }) => {
+const Buttons = ({
+  active,
+  availableCardClasses,
+  selectedCardClass,
+  onClick
+}) => {
   return (
     <React.Fragment>
-      <div className="flex">
-        {availableCardClasses
-          .map(obj => {
-            const { name, value } = obj;
-            return (
-              <button
-                className={active === value ? 'active' : ''}
-                key={name}
-                onClick={e => onClick(e)}
-                value={value}
-              >
-                {name}
-              </button>
-            );
-          })
-          .sort((a, b) => a._order - b._order)}
-      </div>
+      <Switch>
+        <Route path={`/decks/:deckId`}>
+          <div className="flex">
+            <button
+              className={active === selectedCardClass ? 'active' : ''}
+              onClick={e => onClick(e)}
+              value={selectedCardClass}
+            >
+              {replaceConstant(selectedCardClass)}
+            </button>
+            <button
+              className={active === CARDCLASS[0] ? 'active' : ''}
+              onClick={e => onClick(e)}
+              value={CARDCLASS[0]}
+            >
+              {replaceConstant(CARDCLASS[0])}
+            </button>
+          </div>
+        </Route>
+        <Route path={`/`}>
+          <div className="flex">
+            {availableCardClasses
+              .map(obj => {
+                const { name, value } = obj;
+                return (
+                  <button
+                    className={active === value ? 'active' : ''}
+                    key={name}
+                    onClick={e => onClick(e)}
+                    value={value}
+                  >
+                    {name}
+                  </button>
+                );
+              })
+              .sort((a, b) => a._order - b._order)}
+          </div>
+        </Route>
+      </Switch>
     </React.Fragment>
   );
 };
 
-const Selects = ({ active, availableCardClasses, onClick }) => {
+const Selects = ({
+  active,
+  availableCardClasses,
+  selectedCardClass,
+  onClick
+}) => {
   return (
-    <select onChange={e => onClick(e)}>
-      {availableCardClasses
-        .map(obj => {
-          const { name, value } = obj;
-          return (
-            <option key={name} value={value}>
-              {name}
+    <React.Fragment>
+      <Switch>
+        <Route path={`/decks/:deckId`}>
+          <select onChange={e => onClick(e)}>
+            <option value={selectedCardClass}>
+              {replaceConstant(selectedCardClass)}
             </option>
-          );
-        })
-        .sort((a, b) => a._order - b._order)}
-    </select>
+            <option value={CARDCLASS[0]}>
+              {replaceConstant(CARDCLASS[0])}
+            </option>
+          </select>
+        </Route>
+        <Route path={`/`}>
+          <select onChange={e => onClick(e)}>
+            {availableCardClasses
+              .map(obj => {
+                const { name, value } = obj;
+                return (
+                  <option key={name} value={value}>
+                    {name}
+                  </option>
+                );
+              })
+              .sort((a, b) => a._order - b._order)}
+          </select>
+        </Route>
+      </Switch>
+    </React.Fragment>
   );
 };
 
@@ -50,20 +102,25 @@ export default function ClassFilters({
   availableCardClasses,
   onClick
 }) {
+  let { deckId } = useParams();
   const box = useElementSize();
+  const decks = useSelector(state => state.decks);
+  const deck = decks[deckId];
 
   return availableCardClasses ? (
     <Component ref={box.setRef}>
-      {box.size.width >= 768 ? (
+      {box.size.width >= 420 ? (
         <Buttons
           active={active}
           availableCardClasses={availableCardClasses}
+          selectedCardClass={deck && deck.class}
           onClick={onClick}
         />
       ) : (
         <Selects
           active={active}
           availableCardClasses={availableCardClasses}
+          selectedCardClass={deck && deck.class}
           onClick={onClick}
         />
       )}
@@ -89,6 +146,7 @@ const Component = styled.div`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+  margin: 0 10px 0 0;
 
   .flex {
     align-items: center;
@@ -106,7 +164,7 @@ const Component = styled.div`
     text-transform: uppercase;
 
     @media (min-width: 1920px) {
-      font-size: 1em;
+      font-size: 0.825em;
     }
   }
 
@@ -138,5 +196,9 @@ const Component = styled.div`
     &:focus {
       outline: 0;
     }
+  }
+
+  select {
+    width: 100%;
   }
 `;

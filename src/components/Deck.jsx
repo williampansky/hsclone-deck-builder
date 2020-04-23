@@ -61,11 +61,16 @@ Deck.propTypes = {
   playedCards: PropTypes.array
 };
 
+Deck.defaultProps = {
+  data: [],
+  length: 0
+};
+
 const Component = styled.div`
   padding: 10px 10px 60px;
   height: 100%;
-  width: 89%;
-  margin: 40px 0 0 auto;
+  width: 100%;
+  margin: 0 auto;
   overflow-y: auto;
   z-index: 1;
   position: relative;

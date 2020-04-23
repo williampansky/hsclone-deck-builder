@@ -2,30 +2,87 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import EnergySlot from 'components/EnergySlot';
+import useElementSize from 'react-element-size';
+
+const Buttons = ({ active, availableCardClasses, onClick }) => {
+  return (
+    <React.Fragment>
+      <div className="flex">
+        {availableCardClasses
+          .map(obj => {
+            const { name, value } = obj;
+            return (
+              <button
+                className={active === value ? 'active' : ''}
+                key={name}
+                onClick={e => onClick(e)}
+                value={value}
+              >
+                {name}
+              </button>
+            );
+          })
+          .sort((a, b) => a._order - b._order)}
+      </div>
+    </React.Fragment>
+  );
+};
+
+const Selects = ({ active, availableCardClasses, onClick }) => {
+  return (
+    <select onChange={e => onClick(e)}>
+      {availableCardClasses
+        .map(obj => {
+          const { name, value } = obj;
+          return (
+            <option key={name} value={value}>
+              {name}
+            </option>
+          );
+        })
+        .sort((a, b) => a._order - b._order)}
+    </select>
+  );
+};
 
 export default function PlayerEnergy({ active, onClick }) {
-  return (
-    <Component>
-      <div className="flex">
-        <EnergySlot
-          active={active}
-          number={`All`}
-          onClick={e => onClick(e)}
-          value={-1}
-        />
+  const box = useElementSize();
 
-        {Array.from(Array(11)).map((_, index) => {
-          return (
-            <EnergySlot
-              active={active}
-              key={index}
-              number={index}
-              onClick={e => onClick(e)}
-              value={index}
-            />
-          );
-        })}
-      </div>
+  return (
+    <Component ref={box.setRef}>
+      {box.size.width >= 420 ? (
+        <div className="flex">
+          <EnergySlot
+            active={active}
+            number={`All`}
+            onClick={e => onClick(e)}
+            value={-1}
+          />
+
+          {Array.from(Array(11)).map((_, index) => {
+            return (
+              <EnergySlot
+                active={active}
+                key={index}
+                number={index}
+                onClick={e => onClick(e)}
+                value={index}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <select onChange={e => onClick(e)}>
+          <option value={-1}>{`All`}</option>
+          {Array.from(Array(11)).map((_, index) => {
+            return (
+              <option key={index} value={index}>
+                {index}
+              </option>
+            );
+          })}
+        </select>
+      )}
     </Component>
   );
 }
@@ -39,12 +96,16 @@ const Component = styled.div`
   align-items: center;
   display: flex;
   flex-flow: column nowrap;
-  font-size: 16px;
   font-weight: bold;
   justify-content: center;
-  margin: 0;
+  margin: 0 10px;
   user-select: none;
   height: 100%;
+  width: 100%;
+
+  select {
+    width: 100%;
+  }
 
   .flex {
     align-items: center;
@@ -59,7 +120,7 @@ const Component = styled.div`
     color: #999;
     display: flex;
     flex-flow: column nowrap;
-    font-size: 1em;
+    font-size: 0.875em;
     height: 100%;
     justify-content: center;
     overflow: hidden;
@@ -75,7 +136,11 @@ const Component = styled.div`
     }
 
     & + .energy-slot {
-      margin-left: 8px;
+      margin-left: 4px;
+
+      @media (min-width: 1920px) {
+        margin-left: 6px;
+      }
     }
 
     &:active,
@@ -101,9 +166,14 @@ const Component = styled.div`
   }
 
   .energy-slot img {
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
     z-index: 1;
+
+    @media (min-width: 1920px) {
+      height: 40px;
+      width: 40px;
+    }
   }
 
   /* prettier-ignore */
