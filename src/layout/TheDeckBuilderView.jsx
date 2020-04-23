@@ -13,7 +13,6 @@ export default function TheDeckBuilderView() {
   return (
     <React.Fragment>
       <Switch>
-        <Route path={`/decks/:deckId/new`} component={ChooseClass} />
         <Route path={`/decks/:deckId`} component={DeckBuilder} />
       </Switch>
     </React.Fragment>

@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addCard } from 'features/decks/decks.slice';
 import ChooseClass from './ChooseClass';
+import DeleteDeckButton from './DeleteDeckButton';
 import { selectClass } from 'features/filters/filters.slice';
 
 export default function DeckBuilder() {
@@ -98,7 +99,7 @@ export default function DeckBuilder() {
 
         <Footer sidebarActive={sidebarActive}>
           <Filters />
-          <SidebarActivator active={sidebarActive} />
+          <DeleteDeckButton />
         </Footer>
       </Wrapper>
 

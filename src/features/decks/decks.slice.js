@@ -84,7 +84,9 @@ const decksSlice = createSlice({
         state[deckId].cards = sortArray([...newArray, newCardObj]);
       }
     },
-    removeDeck(state, { payload }) {}
+    removeDeck(state, { payload }) {
+      state[payload] = {};
+    }
   }
 });
 
