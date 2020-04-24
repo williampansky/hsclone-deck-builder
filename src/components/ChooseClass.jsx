@@ -62,7 +62,7 @@ export default function ChooseClass() {
     dispatch(
       newDeck({
         deckId: param,
-        name: param,
+        name: `Deck Slot ${param}`,
         cardClass: string
       })
     );
@@ -95,10 +95,10 @@ export default function ChooseClass() {
                     key={idx}
                     onClick={() => handleClick(obj.value, deckId)}
                   >
-                    <div
+                    {/* <div
                       className="avatar"
                       style={{ backgroundImage: imageSrc(obj.value) }}
-                    />
+                    /> */}
                     <div className="class__name">
                       <h2 className="text__value">{obj.name}</h2>
                     </div>
@@ -205,10 +205,12 @@ const ClassGrid = styled.div`
     opacity: 0;
     top: 0;
     left: 0;
-    transition: opacity 150ms ease-in-out;
-    will-change: opacity;
+    transition: opacity, transform 150ms ease-in-out;
+    will-change: opacity, transform;
     margin: 0 auto;
     border-radius: 50%;
+    transform: scale(0.5);
+    z-index: 1;
 
     h2 {
       margin: 0;
@@ -249,24 +251,30 @@ const ClassGrid = styled.div`
 
   .class__item .class__badge--wrapper {
     width: 100%;
-    position: absolute;
     z-index: 1;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
-    bottom: 10px;
+    transform: scale(1);
+    transition: opacity, transform 150ms ease-in-out;
+    will-change: opacity, transform;
 
     .class__badge {
-      width: 100px;
+      width: 100%;
       image-rendering: pixelated;
     }
   }
 
   .class__item:hover {
-    .class__name,
-    .class__name:after {
+    .class__name {
       opacity: 1;
+      transform: scale(1);
+    }
+
+    .class__badge--wrapper {
+      opacity: 0.625;
+      transform: scale(0.925);
     }
   }
 `;
