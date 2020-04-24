@@ -107,9 +107,17 @@ export default function ClassFilters({
   const decks = useSelector(state => state.decks);
   const deck = decks[deckId];
 
+  function handleRender(width, param) {
+    if (param) {
+      return true;
+    }
+
+    return width >= 420 ? true : false;
+  }
+
   return availableCardClasses ? (
-    <Component ref={box.setRef}>
-      {box.size.width >= 420 ? (
+    <Component ref={box.setRef} deckId={deckId}>
+      {handleRender(box.size.width, deckId) ? (
         <Buttons
           active={active}
           availableCardClasses={availableCardClasses}
@@ -140,7 +148,7 @@ ClassFilters.defaultTypes = {
 };
 
 const Component = styled.div`
-  width: 100%;
+  width: ${p => (p.deckId ? 'auto' : '100%')};
   height: 100%;
   align-items: center;
   display: flex;

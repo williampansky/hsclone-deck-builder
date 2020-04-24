@@ -151,8 +151,10 @@ const Footer = styled.footer`
   justify-content: space-between;
 `;
 
-const Wrapper = styled.main`
+const Wrapper = styled.div`
   user-select: none;
+  width: 100%;
+  height: 100%;
 
   ${Header},
   ${Footer} {
