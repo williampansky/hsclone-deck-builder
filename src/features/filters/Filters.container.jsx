@@ -5,8 +5,11 @@ import { selectClass, selectEnergy } from 'features/filters/filters.slice';
 import { setResults } from 'features/filtered-results.slice';
 import ClassFilters from 'features/filters/ClassFilters';
 import EnergyFilters from 'features/filters/EnergyFilters';
+import { useParams } from 'react-router-dom';
+import BackButton from 'components/BackButton';
 
 export default function Filters() {
+  let { deckId } = useParams();
   const dispatch = useDispatch();
   const {
     availableCardClasses,
@@ -32,6 +35,7 @@ export default function Filters() {
 
   return (
     <Component>
+      {deckId ? <BackButton /> : null}
       <ClassFilters
         active={selectedCardClass}
         availableCardClasses={availableCardClasses}

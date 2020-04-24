@@ -54,6 +54,8 @@ export default function DeckCollection() {
 }
 
 const Component = styled.div`
+  height: 100%;
+  overflow-y: auto;
   padding: 10px 10px 60px;
   user-select: none;
 

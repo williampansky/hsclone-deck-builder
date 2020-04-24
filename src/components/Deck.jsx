@@ -87,11 +87,10 @@ Deck.defaultProps = {
 };
 
 const Component = styled.div`
-  padding: 10px 10px 60px;
-  height: 100%;
+  padding: 0 10px;
+  /* height: 100%; */
   width: 100%;
   margin: 0 auto;
-  overflow-y: auto;
   z-index: 1;
   position: relative;
 
@@ -101,6 +100,10 @@ const Component = styled.div`
 
   & > div + div {
     margin-top: 2px;
+  }
+
+  & > div:last-child {
+    margin-bottom: 20px;
   }
 `;
 

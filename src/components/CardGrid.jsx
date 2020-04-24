@@ -154,7 +154,8 @@ const Grid = styled.article`
     justify-content: center;
     pointer-events: auto;
     position: absolute;
-    right: 1%;
+    right: 10%;
+    /* right: 1%; */
     top: -4%;
     user-select: none;
     width: 40px;
@@ -163,6 +164,9 @@ const Grid = styled.article`
     will-change: opacity, transform;
     transform: scale(0);
     opacity: 0;
+
+    @media (min-width: 960px) {
+    }
   }
 
   .tooltip img {
