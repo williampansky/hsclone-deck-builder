@@ -154,6 +154,7 @@ const GridWrapper = styled.div`
   background: #292928;
   position: fixed;
   top: 0;
+  left: 0;
   padding: 20px;
   bottom: 60px;
   overflow-y: auto;

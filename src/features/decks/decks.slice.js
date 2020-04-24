@@ -1,19 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+let decksObj = {
+  1: {},
+  2: {},
+  3: {},
+  4: {},
+  5: {},
+  6: {},
+  7: {},
+  8: {},
+  9: {},
+  10: {}
+};
+
 let initialState = localStorage.getItem('decks')
   ? JSON.parse(localStorage.getItem('decks'))
-  : {
-      1: {},
-      2: {},
-      3: {},
-      4: {},
-      5: {},
-      6: {},
-      7: {},
-      8: {},
-      9: {},
-      10: {}
-    };
+  : decksObj;
 
 function sortArray(arr) {
   return arr.sort((a, b) => {
@@ -59,7 +61,6 @@ const decksSlice = createSlice({
         ]);
       }
     },
-    editDeck(state, { payload }) {},
     editDeckName(state, { payload }) {
       const { deckId, name } = payload;
       state[deckId].name = name;
@@ -92,7 +93,6 @@ const decksSlice = createSlice({
 
 export const {
   addCard,
-  editDeck,
   editDeckName,
   newDeck,
   removeCard,

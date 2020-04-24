@@ -70,10 +70,15 @@ export default function ChooseClass() {
   }
 
   function imageSrc(string) {
-    return `url(assets/images/classes/${string.replace(
-      /(%)/g,
-      ''
-    )}/DEFAULT.jpg)`;
+    if (!exists(string)) return;
+    const str = string.replace(/(%)/g, '');
+    return `url(assets/images/classes/${str}/DEFAULT.jpg)`;
+  }
+
+  function badgeSrc(string) {
+    if (!exists(string)) return;
+    const str = string.replace(/(%)/g, '');
+    return `assets/images/classes/${str}/BADGE.png`;
   }
 
   return (
@@ -96,6 +101,13 @@ export default function ChooseClass() {
                     />
                     <div className="class__name">
                       <h2 className="text__value">{obj.name}</h2>
+                    </div>
+                    <div className="class__badge--wrapper">
+                      <img
+                        alt=""
+                        className="class__badge"
+                        src={badgeSrc(obj.value)}
+                      />
                     </div>
                   </div>
                 );
@@ -158,6 +170,7 @@ const GridWrapper = styled.div`
   background: #292928;
   position: fixed;
   top: 0;
+  left: 0;
   padding: 20px;
   bottom: 60px;
   overflow-y: auto;
@@ -176,22 +189,26 @@ const ClassGrid = styled.div`
     cursor: pointer;
     position: relative;
     text-align: center;
+    height: 250px;
+    width: 250px;
+    margin: 0 auto;
   }
 
   .class__item .class__name {
-    margin: 0;
     position: absolute;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
+    height: 200px;
     width: 100%;
-    height: 100%;
     opacity: 0;
     top: 0;
     left: 0;
     transition: opacity 150ms ease-in-out;
     will-change: opacity;
+    margin: 0 auto;
+    border-radius: 50%;
 
     h2 {
       margin: 0;
@@ -201,7 +218,7 @@ const ClassGrid = styled.div`
 
     &:after {
       background: rgba(0, 0, 0, 0.45);
-      content: '';
+      /* content: ''; */
       position: absolute;
       top: 0;
       right: 0;
@@ -213,18 +230,37 @@ const ClassGrid = styled.div`
       opacity: 0;
       transition: opacity 150ms ease-in-out;
       will-change: opacity;
+      border-radius: 50%;
     }
   }
 
   .class__item .avatar {
-    height: 250px;
-    width: 100%;
+    height: 200px;
+    width: 200px;
     max-width: 100%;
     image-rendering: pixelated;
     object-fit: cover;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    border-radius: 50%;
+    margin: 0 auto;
+  }
+
+  .class__item .class__badge--wrapper {
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    bottom: 10px;
+
+    .class__badge {
+      width: 100px;
+      image-rendering: pixelated;
+    }
   }
 
   .class__item:hover {
