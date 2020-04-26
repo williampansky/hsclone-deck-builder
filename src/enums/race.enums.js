@@ -6,8 +6,8 @@ const RACE = {
   4: '%RACE_ANDROID%',
   5: '%RACE_SPRITE%',
   6: '%RACE_IDOL%',
-  7: 'Pirate(temp)',
-  8: 'Dragon(temp)',
+  7: '%RACE_PIRATE%',
+  8: '%RACE_DRAGON%',
   9: '%RACE_LOCATION%'
 };
 

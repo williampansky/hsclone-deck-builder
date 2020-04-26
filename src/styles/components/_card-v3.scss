@@ -73,12 +73,12 @@
     &__wrapper {
       position: absolute;
       bottom: 106px;
-      left: -16px;
+      left: -6px;
       @include display-flex(column nowrap, center, center);
     }
 
     &__badge {
-      width: 74px;
+      width: 68px;
       position: relative;
       image-rendering: pixelated;
       top: 0.5px;
@@ -158,9 +158,9 @@
   .card__image__wrapper {
     background-color: #191919;
     position: absolute;
-    width: 93%;
+    width: 86%;
     height: 58%;
-    margin: 36px 8px 0 12px;
+    margin: 36px 18px 0 20px;
     overflow: hidden;
     z-index: -1;
   }
