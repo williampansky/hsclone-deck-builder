@@ -142,7 +142,7 @@ export default function Card({
       <img
         alt=""
         className={`card__rarity__gem`}
-        src={`assets/Gem_Rarity_${rarity}.png`}
+        src={`assets/Gem_Rarity_${replaceConstant(rarity)}.png`}
       />
 
       <div className={`card__type__image__wrapper`}>
@@ -168,7 +168,7 @@ export default function Card({
         <img
           alt=""
           className={`card__base__image`}
-          src={`assets/images/cards/front/${rarity}.png`}
+          src={`assets/images/cards/front/${replaceConstant(rarity)}.png`}
         />
       )}
     </div>

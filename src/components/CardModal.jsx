@@ -5,12 +5,23 @@ import Card from 'components/Card';
 import replaceConstant from 'utils/replace-constants';
 import getConstantDescription from 'utils/get-constant-description';
 import createMarkup from 'utils/createMarkup';
+import exists from 'utils/element.exists';
 
 export default function CardModal({
   cardText,
   handleTooltipClick,
   modalObject
 }) {
+  /**
+   * Removes hhtp(?s)://www. from URL string.
+   * @param {*} string e.g. https://www.artstation.com/dianafranco
+   * @see https://stackoverflow.com/a/41942787/8296677
+   */
+  function condenseUrlString(string) {
+    if (!exists(string)) return;
+    return string.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '');
+  }
+
   return (
     <Modal
       className={modalObject !== null ? 'open' : ''}
@@ -127,7 +138,7 @@ export default function CardModal({
                     </li>
                     <li>
                       <strong className="text__value">Rarity:</strong>{' '}
-                      {modalObject.rarity}
+                      <span>{replaceConstant(modalObject.rarity)}</span>
                     </li>
                     {modalObject.playRequirements && (
                       <li>
@@ -154,6 +165,11 @@ export default function CardModal({
                         <strong className="text__value">Collectible</strong>
                       </li>
                     )}
+                    {modalObject.elite && (
+                      <li>
+                        <strong className="text__value">Elite</strong>
+                      </li>
+                    )}
                   </ul>
                   {modalObject.artist && (
                     <div className="artist">
@@ -163,7 +179,7 @@ export default function CardModal({
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {modalObject.artist}
+                        {condenseUrlString(modalObject.artist)}
                       </a>
                     </div>
                   )}
@@ -350,6 +366,10 @@ const Modal = styled.div`
   .info__list strong {
     color: #fff649;
     margin: 0 0.25em 0 0;
+  }
+
+  .info__list strong + span {
+    text-transform: uppercase;
   }
 
   .name {
