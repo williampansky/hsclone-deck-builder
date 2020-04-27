@@ -28,7 +28,7 @@ export default function CardCollection() {
   // }
 
   useEffect(() => {
-    dispatch(selectClass(CARDCLASS[1]));
+    dispatch(selectClass(CARDCLASS[0]));
   }, [dispatch]);
 
   function handleTooltipClick(obj) {
@@ -76,7 +76,7 @@ CardCollection.propTypes = {
 };
 
 CardCollection.defaultProps = {
-  selectedCardClass: CARDCLASS[1]
+  selectedCardClass: CARDCLASS[0]
 };
 
 const Header = styled.header`

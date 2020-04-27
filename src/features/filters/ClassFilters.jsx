@@ -20,18 +20,18 @@ const Buttons = ({
         <Route path={`/decks/:deckId`}>
           <div className="flex">
             <button
-              className={active === selectedCardClass ? 'active' : ''}
-              onClick={e => onClick(e)}
-              value={selectedCardClass}
-            >
-              {replaceConstant(selectedCardClass)}
-            </button>
-            <button
               className={active === CARDCLASS[0] ? 'active' : ''}
               onClick={e => onClick(e)}
               value={CARDCLASS[0]}
             >
               {replaceConstant(CARDCLASS[0])}
+            </button>
+            <button
+              className={active === selectedCardClass ? 'active' : ''}
+              onClick={e => onClick(e)}
+              value={selectedCardClass}
+            >
+              {replaceConstant(selectedCardClass)}
             </button>
           </div>
         </Route>
@@ -70,11 +70,11 @@ const Selects = ({
       <Switch>
         <Route path={`/decks/:deckId`}>
           <select onChange={e => onClick(e)}>
-            <option value={selectedCardClass}>
-              {replaceConstant(selectedCardClass)}
-            </option>
             <option value={CARDCLASS[0]}>
               {replaceConstant(CARDCLASS[0])}
+            </option>
+            <option value={selectedCardClass}>
+              {replaceConstant(selectedCardClass)}
             </option>
           </select>
         </Route>

@@ -8,6 +8,7 @@ let initialState = {
     : CARDCLASS[1],
   selectedEnergyFilter: -1,
   availableCardClasses: [
+    { _order: 0, name: replaceConstant(CARDCLASS[0]), value: CARDCLASS[0] },
     { _order: 1, name: replaceConstant(CARDCLASS[1]), value: CARDCLASS[1] },
     { _order: 2, name: replaceConstant(CARDCLASS[2]), value: CARDCLASS[2] },
     { _order: 3, name: replaceConstant(CARDCLASS[3]), value: CARDCLASS[3] },
@@ -16,8 +17,7 @@ let initialState = {
     { _order: 6, name: replaceConstant(CARDCLASS[6]), value: CARDCLASS[6] },
     { _order: 7, name: replaceConstant(CARDCLASS[7]), value: CARDCLASS[7] },
     { _order: 8, name: replaceConstant(CARDCLASS[8]), value: CARDCLASS[8] },
-    { _order: 9, name: replaceConstant(CARDCLASS[9]), value: CARDCLASS[9] },
-    { _order: 10, name: replaceConstant(CARDCLASS[0]), value: CARDCLASS[0] }
+    { _order: 9, name: replaceConstant(CARDCLASS[9]), value: CARDCLASS[9] }
   ]
 };
 

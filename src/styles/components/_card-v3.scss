@@ -72,13 +72,13 @@
 
     &__wrapper {
       position: absolute;
-      bottom: 106px;
-      left: -6px;
+      bottom: 100px;
+      left: -10px;
       @include display-flex(column nowrap, center, center);
     }
 
     &__badge {
-      width: 68px;
+      width: 72px;
       position: relative;
       image-rendering: pixelated;
       top: 0.5px;
