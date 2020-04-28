@@ -45,9 +45,10 @@ export default function EntourageCard({ data }) {
   const IS_WEAPON = type === TYPE[4] ? true : false;
 
   function cardImage(cardId, cardSet, isGold, goldSrc) {
+    const set = replaceConstant(cardSet.replace(/(%)/g, ''));
     return isGold
       ? `url(${goldSrc})`
-      : `url(assets/images/sets/${cardSet}/${cardId}-CARD.jpg)`;
+      : `url(assets/images/sets/${set}/${cardId}-CARD.jpg)`;
   }
 
   function cardText(string, spellDmg = warcryNumber) {

@@ -91,7 +91,7 @@ export default function ChooseClass() {
               .map((obj, idx) => {
                 return (
                   <div
-                    className="class__item"
+                    className="class__item magictime puffIn"
                     key={idx}
                     onClick={() => handleClick(obj.value, deckId)}
                   >
@@ -194,6 +194,20 @@ const ClassGrid = styled.div`
     height: 250px;
     width: 250px;
     margin: 0 auto;
+  }
+
+  /* prettier-ignore */
+  .class__item {
+    animation-duration: 400ms;
+    &:nth-child(1) { animation-delay: 0ms; }
+    &:nth-child(2) { animation-delay: 100ms; }
+    &:nth-child(3) { animation-delay: 200ms; }
+    &:nth-child(4) { animation-delay: 300ms; }
+    &:nth-child(5) { animation-delay: 400ms; }
+    &:nth-child(6) { animation-delay: 500ms; }
+    &:nth-child(7) { animation-delay: 600ms; }
+    &:nth-child(8) { animation-delay: 700ms; }
+    &:nth-child(9) { animation-delay: 800ms; }
   }
 
   .class__item .class__name {

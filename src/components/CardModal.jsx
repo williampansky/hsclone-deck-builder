@@ -30,14 +30,14 @@ export default function CardModal({
 
   return (
     <Modal
-      className={modalObject !== null ? 'open' : ''}
+      className={modalObject !== null ? 'open magictime vanishIn' : ''}
       onClick={() => handleTooltipClick(null)}
     >
       {modalObject !== null ? (
         <React.Fragment>
           <div className="modal__dialog">
             <div className="flex">
-              <div className="card-wrapper magictime vanishIn">
+              <div className="card-wrapper">
                 <Card
                   artist={modalObject.artist}
                   attack={modalObject.attack}
@@ -185,7 +185,7 @@ export default function CardModal({
                     {modalObject.targetingArrowText && (
                       <li>
                         <strong className="text__value">Targeting Text:</strong>{' '}
-                        {modalObject.targetingArrowText}
+                        {replaceConstant(modalObject.targetingArrowText)}
                       </li>
                     )}
                     {modalObject.howToEarn && (
@@ -234,6 +234,7 @@ CardModal.propTypes = {
 };
 
 const Modal = styled.div`
+  animation-duration: 600ms;
   display: flex;
   align-items: flex-start;
   position: fixed;
@@ -250,6 +251,7 @@ const Modal = styled.div`
   user-select: none;
 
   .modal__dialog {
+    animation-duration: 400ms;
     position: relative;
     box-sizing: border-box;
     margin: auto;
