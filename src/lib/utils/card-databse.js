@@ -6,8 +6,8 @@ import ENTOURAGE from 'data/debug/cards-ENTOURAGE.json';
 const CARD_DATABASE = {
   // ...GAME,
   ...CORE,
-  ...PRIME
-  // ...ENTOURAGE
+  ...PRIME,
+  ...ENTOURAGE
 };
 
 export default CARD_DATABASE;

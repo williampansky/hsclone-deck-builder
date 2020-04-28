@@ -11,6 +11,7 @@ const filteredResultsSlice = createSlice({
       const { cardClass, energyFilter } = payload;
       return Object.keys(CARD_DATABASE)
         .map(i => CARD_DATABASE[i])
+        .filter(item => !item.isEntourage)
         .filter(item => {
           if (energyFilter === -1) {
             return item.cardClass === cardClass;

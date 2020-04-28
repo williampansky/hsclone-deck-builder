@@ -2,16 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Card from 'components/Card';
-import replaceConstant from 'utils/replace-constants';
-import getConstantDescription from 'utils/get-constant-description';
 import createMarkup from 'utils/createMarkup';
+import EntourageCard from 'components/EntourageCard';
 import exists from 'utils/element.exists';
+import getConstantDescription from 'utils/get-constant-description';
+import replaceConstant from 'utils/replace-constants';
+import useHover from 'react-use-hover';
+import { useSelector } from 'react-redux';
 
 export default function CardModal({
   cardText,
   handleTooltipClick,
   modalObject
 }) {
+  const [isHovering, hoverProps] = useHover();
+  const database = useSelector(state => state.database);
+
   /**
    * Removes hhtp(?s)://www. from URL string.
    * @param {*} string e.g. https://www.artstation.com/dianafranco
@@ -62,38 +68,40 @@ export default function CardModal({
                   type={modalObject.type}
                   warcryNumber={modalObject.warcryNumber}
                 />
-                <div className="transformed-card">
-                  <Card
-                    artist={modalObject.artist}
-                    attack={modalObject.attack}
-                    cardClass={modalObject.cardClass}
-                    collectible={modalObject.collectible}
-                    cost={modalObject.cost}
-                    elite={modalObject.elite}
-                    entourage={modalObject.entourage}
-                    flavor={modalObject.flavor}
-                    goldenImageSrc={modalObject.goldenImageSrc}
-                    health={modalObject.health}
-                    hideStats={modalObject.hideStats}
-                    howToEarn={modalObject.howToEarn}
-                    howToEarnGolden={modalObject.howToEarnGolden}
-                    id={modalObject.id}
-                    isGolden={modalObject.isGolden}
-                    mechanics={modalObject.mechanics}
-                    name={modalObject.name}
-                    playRequirements={modalObject.playRequirements}
-                    race={modalObject.race}
-                    rarity={modalObject.rarity}
-                    set={modalObject.set}
-                    sounds={modalObject.sounds}
-                    spellDamage={modalObject.spellDamage}
-                    spellType={modalObject.spellType}
-                    targetingArrowText={modalObject.targetingArrowText}
-                    text={modalObject.text}
-                    type={modalObject.type}
-                    warcryNumber={modalObject.warcryNumber}
-                  />
-                </div>
+                {!modalObject.elite ? (
+                  <div className="transformed-card">
+                    <Card
+                      artist={modalObject.artist}
+                      attack={modalObject.attack}
+                      cardClass={modalObject.cardClass}
+                      collectible={modalObject.collectible}
+                      cost={modalObject.cost}
+                      elite={modalObject.elite}
+                      entourage={modalObject.entourage}
+                      flavor={modalObject.flavor}
+                      goldenImageSrc={modalObject.goldenImageSrc}
+                      health={modalObject.health}
+                      hideStats={modalObject.hideStats}
+                      howToEarn={modalObject.howToEarn}
+                      howToEarnGolden={modalObject.howToEarnGolden}
+                      id={modalObject.id}
+                      isGolden={modalObject.isGolden}
+                      mechanics={modalObject.mechanics}
+                      name={modalObject.name}
+                      playRequirements={modalObject.playRequirements}
+                      race={modalObject.race}
+                      rarity={modalObject.rarity}
+                      set={modalObject.set}
+                      sounds={modalObject.sounds}
+                      spellDamage={modalObject.spellDamage}
+                      spellType={modalObject.spellType}
+                      targetingArrowText={modalObject.targetingArrowText}
+                      text={modalObject.text}
+                      type={modalObject.type}
+                      warcryNumber={modalObject.warcryNumber}
+                    />
+                  </div>
+                ) : null}
               </div>
               <div className="info">
                 <div className="text__value">
@@ -146,6 +154,32 @@ export default function CardModal({
                           Play Requirements:
                         </strong>{' '}
                         {modalObject.playRequirements}
+                      </li>
+                    )}
+                    {modalObject.entourage && (
+                      <li {...hoverProps} aria-describedby="overlay">
+                        <strong className="text__value">Entourage:</strong>{' '}
+                        <span>{modalObject.entourage}</span>
+                        {modalObject.entourage !== null ? (
+                          database.find(o => o.id === modalObject.entourage) ? (
+                            <EntourageCardWrapper
+                              className={[
+                                'entourage-card',
+                                isHovering
+                                  ? 'uk-animation-slide-bottom-small'
+                                  : ''
+                              ].join(' ')}
+                              id="overlay"
+                              role="tooltip"
+                            >
+                              <EntourageCard
+                                data={database.find(
+                                  o => o.id === modalObject.entourage
+                                )}
+                              />
+                            </EntourageCardWrapper>
+                          ) : null
+                        ) : null}
                       </li>
                     )}
                     {modalObject.targetingArrowText && (
@@ -359,6 +393,10 @@ const Modal = styled.div`
     text-transform: capitalize;
   }
 
+  .info__list li {
+    position: relative;
+  }
+
   .info__list ul li + li {
     margin-top: 0.465em;
   }
@@ -402,7 +440,8 @@ const Modal = styled.div`
     margin-top: 1em;
   }
 
-  .artist a {
+  .artist a,
+  .info__list a {
     color: white;
     cursor: pointer;
     text-decoration: underline;
@@ -410,5 +449,20 @@ const Modal = styled.div`
     &:hover {
       text-decoration: none;
     }
+  }
+`;
+
+const EntourageCardWrapper = styled.div`
+  /* visibility: ${p => (p.visible ? 'visible' : 'hidden')}; */
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  animation-duration: 200ms;
+
+  .card__v3 {
+    box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.625);
   }
 `;
