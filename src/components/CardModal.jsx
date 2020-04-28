@@ -37,7 +37,7 @@ export default function CardModal({
         <React.Fragment>
           <div className="modal__dialog">
             <div className="flex">
-              <div className="card-wrapper">
+              <div className="card-wrapper magictime vanishIn">
                 <Card
                   artist={modalObject.artist}
                   attack={modalObject.attack}
@@ -142,7 +142,7 @@ export default function CardModal({
                     </li>
                     <li>
                       <strong className="text__value">Set:</strong>{' '}
-                      {modalObject.set}
+                      <span>{replaceConstant(modalObject.set)}</span>
                     </li>
                     <li>
                       <strong className="text__value">Rarity:</strong>{' '}
@@ -279,77 +279,34 @@ const Modal = styled.div`
   }
 
   .card-wrapper > .card__v3 {
-    animation: scale 250ms ease-out forwards;
     box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.625);
+    transform: scale(1);
     z-index: 1;
 
-    @keyframes scale {
-      from {
-        transform: scale(0.75);
-      }
-      to {
-        transform: scale(1);
-      }
-    }
-
     @media (min-width: 960px) {
-      @keyframes scale {
-        from {
-          transform: scale(1);
-        }
-        to {
-          transform: scale(1.25);
-        }
-      }
+      transform: scale(1.25);
     }
 
     @media (min-width: 1200px) {
-      @keyframes scale {
-        from {
-          transform: scale(1);
-        }
-        to {
-          transform: scale(1.5);
-        }
-      }
+      transform: scale(1.5);
     }
   }
 
-  .transformed-card {
-    animation: rotate 500ms var(--animation-transition-cubic) forwards;
+  .card-wrapper > .transformed-card {
     position: absolute;
     z-index: 0;
     bottom: -4%;
     left: -25%;
 
-    @keyframes rotate {
-      from {
-        transform: rotate(0deg) scale(0.75);
-      }
-      to {
-        transform: rotate(-10deg) scale(0.95);
-      }
-    }
+    & > .card__v3 {
+      transform: rotate(-10deg) scale(0.95);
 
-    @media (min-width: 960px) {
-      @keyframes rotate {
-        from {
-          transform: rotate(0deg) scale(1);
-        }
-        to {
-          transform: rotate(-10deg) scale(1.2);
-        }
+      @media (min-width: 960px) {
+        transform: rotate(-10deg) scale(1.2);
       }
-    }
 
-    @media (min-width: 1200px) {
-      @keyframes rotate {
-        from {
-          transform: rotate(0deg) scale(1);
-        }
-        to {
-          transform: rotate(-10deg) scale(1.475);
-        }
+      @media (min-width: 1200px) {
+        transform: rotate(-10deg) scale(1.475);
       }
     }
   }

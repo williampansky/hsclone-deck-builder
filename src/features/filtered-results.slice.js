@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import CARD_DATABASE from 'lib/utils/card-databse';
+import SET from 'enums/set.enums';
 
 let initialState = [];
 
@@ -12,6 +13,7 @@ const filteredResultsSlice = createSlice({
       return Object.keys(CARD_DATABASE)
         .map(i => CARD_DATABASE[i])
         .filter(item => !item.isEntourage)
+        .filter(item => item.set === SET[1])
         .filter(item => {
           if (energyFilter === -1) {
             return item.cardClass === cardClass;
