@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CARDCLASS from 'enums/cardClass.enums';
 import replaceConstant from 'utils/replace-constants';
 import { useHistory, useParams } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 
 const Buttons = ({
   active,
@@ -24,14 +25,14 @@ const Buttons = ({
               onClick={e => onClick(e)}
               value={CARDCLASS[0]}
             >
-              {replaceConstant(CARDCLASS[0])}
+              <span>{replaceConstant(CARDCLASS[0])}</span>
             </button>
             <button
               className={active === selectedCardClass ? 'active' : ''}
               onClick={e => onClick(e)}
               value={selectedCardClass}
             >
-              {replaceConstant(selectedCardClass)}
+              <span>{replaceConstant(selectedCardClass)}</span>
             </button>
           </div>
         </Route>
@@ -47,7 +48,7 @@ const Buttons = ({
                     onClick={e => onClick(e)}
                     value={value}
                   >
-                    {name}
+                    <span>{name}</span>
                   </button>
                 );
               })
@@ -103,21 +104,13 @@ export default function ClassFilters({
   onClick
 }) {
   let { deckId } = useParams();
-  const box = useElementSize();
+  const isBigScreen = useMediaQuery({ query: '(min-width: 1200px)' });
   const decks = useSelector(state => state.decks);
   const deck = decks[deckId];
 
-  function handleRender(width, param) {
-    if (param) {
-      return true;
-    }
-
-    return width >= 420 ? true : false;
-  }
-
   return availableCardClasses ? (
-    <Component ref={box.setRef} deckId={deckId}>
-      {handleRender(box.size.width, deckId) ? (
+    <Component deckId={deckId}>
+      {isBigScreen ? (
         <Buttons
           active={active}
           availableCardClasses={availableCardClasses}
@@ -148,13 +141,24 @@ ClassFilters.defaultTypes = {
 };
 
 const Component = styled.div`
-  width: ${p => (p.deckId ? 'auto' : '100%')};
-  height: 100%;
+  /* width: ${p => (p.deckId ? 'auto' : '100%')}; */
+  /* height: 100%; */
   align-items: center;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   margin: 0 10px 0 0;
+  position: absolute;
+  /* background: #444; */
+  /* height: 40px; */
+  top: -22px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  /* padding: 10px; */
+
+  @media (min-width: 1920px) {
+    top: -26px;
+  }
 
   .flex {
     align-items: center;
@@ -164,24 +168,20 @@ const Component = styled.div`
   }
 
   button {
+    background: #444;
     cursor: pointer;
     font-family: 'Carter One', sans-serif;
     border: 0;
     margin: 0;
     padding: 0 10px;
     text-transform: uppercase;
-
-    @media (min-width: 1920px) {
-      font-size: 0.825em;
-    }
-  }
-
-  button + button {
-    margin-left: 10px;
-  }
-
-  button.active {
-    background: #1cbae5;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    line-height: 2;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+    transition: 200ms var(--animation-transition-cubic);
     color: white;
     text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black,
       0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black,
@@ -196,6 +196,24 @@ const Component = styled.div`
       0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black,
       0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black,
       0 0 1px black;
+
+    @media (min-width: 1920px) {
+      font-size: 0.825em;
+    }
+  }
+
+  button span {
+    position: relative;
+    bottom: -0.5px;
+    pointer-events: none;
+  }
+
+  button + button {
+    margin-left: 8px;
+  }
+
+  button.active {
+    background: #1cbae5;
   }
 
   button,

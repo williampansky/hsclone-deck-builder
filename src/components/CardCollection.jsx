@@ -94,6 +94,21 @@ const Footer = styled.footer`
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    top: -30px;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      rgba(41, 41, 40, 1) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
 `;
 
 const Wrapper = styled.main`
@@ -119,7 +134,7 @@ const GridWrapper = styled.div`
   top: 0;
   left: 0;
   padding: 20px;
-  bottom: 60px;
+  bottom: 80px;
   overflow-y: auto;
   width: ${p => (p.sidebarActive ? 'calc(100vw - 300px)' : 'calc(100vw)')};
   transition: width 150ms var(--animation-transition-cubic);

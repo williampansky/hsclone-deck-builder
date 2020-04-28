@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Card from 'components/Card';
+import { useParams } from 'react-router-dom';
 
 export default function CardGrid({
   addSelectedCardCallback,
@@ -9,8 +10,10 @@ export default function CardGrid({
   handleClass,
   handleTooltipClick
 }) {
+  let { deckId } = useParams();
+
   return (
-    <Grid>
+    <Grid deckId={deckId}>
       {database.map((card, index) => {
         return (
           <div className={handleClass(card)} key={index}>
@@ -90,7 +93,7 @@ const Grid = styled.article`
   }
 
   & > div .card__v3 {
-    cursor: pointer;
+    cursor: ${p => (p.deckId ? 'pointer' : 'default')};
     margin: 0 auto;
   }
 

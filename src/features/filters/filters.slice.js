@@ -7,6 +7,7 @@ let initialState = {
   selectedCardClass: localStorage.getItem('selectedCardClass')
     ? localStorage.getItem('selectedCardClass')
     : CARDCLASS[1],
+  selectedCardRace: `All`,
   selectedEnergyFilter: -1,
   availableCardClasses: [
     { _order: 0, name: replaceConstant(CARDCLASS[0]), value: CARDCLASS[0] },
@@ -20,17 +21,18 @@ let initialState = {
     { _order: 8, name: replaceConstant(CARDCLASS[8]), value: CARDCLASS[8] },
     { _order: 9, name: replaceConstant(CARDCLASS[9]), value: CARDCLASS[9] }
   ],
-  availableCardRarities: [
-    { _order: 0, name: replaceConstant(RACE[0]), value: RACE[0] },
-    { _order: 1, name: replaceConstant(RACE[1]), value: RACE[1] },
-    { _order: 2, name: replaceConstant(RACE[2]), value: RACE[2] },
-    { _order: 3, name: replaceConstant(RACE[3]), value: RACE[3] },
-    { _order: 4, name: replaceConstant(RACE[4]), value: RACE[4] },
-    { _order: 5, name: replaceConstant(RACE[5]), value: RACE[5] },
-    { _order: 6, name: replaceConstant(RACE[6]), value: RACE[6] },
-    { _order: 7, name: replaceConstant(RACE[7]), value: RACE[7] },
-    { _order: 8, name: replaceConstant(RACE[8]), value: RACE[8] },
-    { _order: 9, name: replaceConstant(RACE[9]), value: RACE[9] }
+  availableCardRaces: [
+    { _order: 0, name: `All`, value: `All` },
+    { _order: 1, name: replaceConstant(RACE[0]), value: RACE[0] },
+    { _order: 2, name: replaceConstant(RACE[1]), value: RACE[1] },
+    { _order: 3, name: replaceConstant(RACE[2]), value: RACE[2] },
+    { _order: 4, name: replaceConstant(RACE[3]), value: RACE[3] },
+    { _order: 5, name: replaceConstant(RACE[4]), value: RACE[4] },
+    { _order: 6, name: replaceConstant(RACE[5]), value: RACE[5] },
+    { _order: 7, name: replaceConstant(RACE[6]), value: RACE[6] },
+    { _order: 8, name: replaceConstant(RACE[7]), value: RACE[7] },
+    { _order: 9, name: replaceConstant(RACE[8]), value: RACE[8] },
+    { _order: 10, name: replaceConstant(RACE[9]), value: RACE[9] }
   ]
 };
 
@@ -46,9 +48,12 @@ const filtersSlice = createSlice({
       state.selectedEnergyFilter === incomingValue
         ? (state.selectedEnergyFilter = -1)
         : (state.selectedEnergyFilter = incomingValue);
+    },
+    selectRace(state, { payload }) {
+      state.selectedCardRace = payload;
     }
   }
 });
 
-export const { selectClass, selectEnergy } = filtersSlice.actions;
+export const { selectClass, selectEnergy, selectRace } = filtersSlice.actions;
 export default filtersSlice.reducer;

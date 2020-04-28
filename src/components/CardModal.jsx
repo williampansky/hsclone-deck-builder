@@ -15,7 +15,7 @@ export default function CardModal({
   handleTooltipClick,
   modalObject
 }) {
-  const [isHovering, hoverProps] = useHover();
+  const [isHovering, hoverProps] = useHover(false);
   const database = useSelector(state => state.database);
 
   /**

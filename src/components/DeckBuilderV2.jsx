@@ -160,7 +160,7 @@ const GridWrapper = styled.div`
   top: 0;
   left: 0;
   padding: 20px;
-  bottom: 60px;
+  bottom: 80px;
   overflow-y: auto;
   width: ${p => (p.sidebarActive ? 'calc(100vw - 300px)' : 'calc(100vw)')};
   transition: width 150ms var(--animation-transition-cubic);

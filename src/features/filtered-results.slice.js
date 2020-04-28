@@ -9,18 +9,35 @@ const filteredResultsSlice = createSlice({
   initialState,
   reducers: {
     setResults(state, { payload }) {
-      const { cardClass, energyFilter } = payload;
+      const { cardClass, race, energyFilter } = payload;
       return Object.keys(CARD_DATABASE)
         .map(i => CARD_DATABASE[i])
         .filter(item => !item.isEntourage)
-        .filter(item => item.set === SET[1])
+        .filter(item => item.set === SET[1] || item.set === SET[2])
         .filter(item => {
           if (energyFilter === -1) {
-            return item.cardClass === cardClass;
+            if (race === 'All') return item.cardClass === cardClass;
+            return item.cardClass === cardClass && item.race === race;
           } else if (energyFilter === 10) {
-            return item.cardClass === cardClass && item.cost >= 10;
+            if (race === 'All') {
+              return item.cardClass === cardClass && item.cost >= 10;
+            }
+
+            return (
+              item.cardClass === cardClass &&
+              item.race === race &&
+              item.cost >= 10
+            );
           } else {
-            return item.cardClass === cardClass && item.cost === energyFilter;
+            if (race === 'All') {
+              return item.cardClass === cardClass && item.cost === energyFilter;
+            }
+
+            return (
+              item.cardClass === cardClass &&
+              item.race === race &&
+              item.cost === energyFilter
+            );
           }
         })
         .sort((a, b) => {

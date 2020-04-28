@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import EnergySlot from 'components/EnergySlot';
 import useElementSize from 'react-element-size';
+import { useMediaQuery } from 'react-responsive';
 
 const Buttons = ({ active, availableCardClasses, onClick }) => {
   return (
@@ -46,11 +47,11 @@ const Selects = ({ active, availableCardClasses, onClick }) => {
 };
 
 export default function PlayerEnergy({ active, onClick }) {
-  const box = useElementSize();
+  const isBigScreen = useMediaQuery({ query: '(min-width: 1200px)' });
 
   return (
-    <Component ref={box.setRef}>
-      {box.size.width >= 420 ? (
+    <Component>
+      {isBigScreen ? (
         <div className="flex">
           <EnergySlot
             active={active}
