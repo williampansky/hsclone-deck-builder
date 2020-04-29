@@ -30,12 +30,12 @@ export default function CardModal({
 
   return (
     <Modal
-      className={modalObject !== null ? 'open magictime vanishIn' : ''}
+      className={modalObject !== null ? 'open' : ''}
       onClick={() => handleTooltipClick(null)}
     >
       {modalObject !== null ? (
         <React.Fragment>
-          <div className="modal__dialog">
+          <div className="modal__dialog magictime vanishIn">
             <div className="flex">
               <div className="card-wrapper">
                 <Card

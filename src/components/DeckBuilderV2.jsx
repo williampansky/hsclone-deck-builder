@@ -135,6 +135,28 @@ const Footer = styled.footer`
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    top: -30px;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      rgba(41, 41, 40, 1) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  @media (min-width: 1920px) {
+    &:before {
+      height: 40px;
+      top: -40px;
+    }
+  }
 `;
 
 const Wrapper = styled.main`

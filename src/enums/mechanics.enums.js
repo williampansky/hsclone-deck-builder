@@ -29,7 +29,14 @@ const MECHANICS = {
   27: '%SPELL_DAMAGE%',   // increases damage done by spells
   28: '%STEAL%',          // take control of target
   29: '%SUMMON%',         // generates a minion
-  30: '%TRANSFORM%'       // transforms target into something else
+  30: '%TRANSFORM%',      // transforms target into something else
+  31: '%AOE%',            // affects all characters of the stated type
+  32: '%CHOOSE_ONE%',     // choose between two or more effects
+  33: '%ENERGY_CRYSTAL%', // resource container to hold the primary resource
+  34: '%NO_ATTACK%',      // minion cannot attack
+  35: '%RANDOM%',         // rng mechanic
+  36: '%RESTORE_HP%',     // sets Health back to its total Health value
+  37: '%TARGETED_SPELL%', // cast a targeted spell
 };
 
 export default MECHANICS;

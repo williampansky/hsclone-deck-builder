@@ -109,6 +109,13 @@ const Footer = styled.footer`
       rgba(0, 0, 0, 0) 100%
     );
   }
+
+  @media (min-width: 1920px) {
+    &:before {
+      height: 40px;
+      top: -40px;
+    }
+  }
 `;
 
 const Wrapper = styled.main`

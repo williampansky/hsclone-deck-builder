@@ -98,29 +98,25 @@ const Selects = ({
   );
 };
 
-export default function ClassFilters({
-  active,
-  availableCardClasses,
-  onClick
-}) {
+export default function ClassFilters({ active, data, onClick }) {
   let { deckId } = useParams();
   const isBigScreen = useMediaQuery({ query: '(min-width: 1200px)' });
   const decks = useSelector(state => state.decks);
   const deck = decks[deckId];
 
-  return availableCardClasses ? (
+  return data ? (
     <Component deckId={deckId}>
       {isBigScreen ? (
         <Buttons
           active={active}
-          availableCardClasses={availableCardClasses}
+          availableCardClasses={data}
           selectedCardClass={deck && deck.class}
           onClick={onClick}
         />
       ) : (
         <Selects
           active={active}
-          availableCardClasses={availableCardClasses}
+          availableCardClasses={data}
           selectedCardClass={deck && deck.class}
           onClick={onClick}
         />
@@ -131,12 +127,12 @@ export default function ClassFilters({
 
 ClassFilters.propTypes = {
   active: PropTypes.string,
-  availableCardClasses: PropTypes.array,
+  data: PropTypes.array,
   onClick: PropTypes.func
 };
 
 ClassFilters.defaultTypes = {
-  availableCardClasses: [],
+  data: [],
   onClick: () => {}
 };
 
@@ -156,8 +152,12 @@ const Component = styled.div`
   border-top-right-radius: 4px;
   /* padding: 10px; */
 
-  @media (min-width: 1920px) {
+  @media (min-width: 1440px) {
     top: -26px;
+  }
+
+  @media (min-width: 1920px) {
+    top: -32px;
   }
 
   .flex {
@@ -168,7 +168,7 @@ const Component = styled.div`
   }
 
   button {
-    background: #444;
+    background: #111;
     cursor: pointer;
     font-family: 'Carter One', sans-serif;
     border: 0;
@@ -197,8 +197,12 @@ const Component = styled.div`
       0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black,
       0 0 1px black;
 
-    @media (min-width: 1920px) {
+    @media (min-width: 1440px) {
       font-size: 0.825em;
+    }
+
+    @media (min-width: 1920px) {
+      font-size: 1em;
     }
   }
 
@@ -206,6 +210,7 @@ const Component = styled.div`
     position: relative;
     bottom: -0.5px;
     pointer-events: none;
+    opacity: 0.45;
   }
 
   button + button {
@@ -213,8 +218,18 @@ const Component = styled.div`
   }
 
   button.active {
-    background: #1cbae5;
+    background: #444;
+    /* background: #1cbae5; */
   }
+
+  button:hover span {
+    opacity: 0.875;
+  }
+
+  button.active span {
+    opacity: 1;
+  }
+
 
   button,
   button.active {

@@ -10,10 +10,16 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import Select from 'react-select';
 
-export default function RaceFilters({ active, data, onClick }) {
+export default function MechanicsFilters({ active, data, onClick }) {
+  // const sortedData = data.sort((a, b) => {
+  //   if (a.label > b.label) return 1;
+  //   if (a.label < b.label) return -1;
+  //   return 1;
+  // });
+
   return data ? (
     <Component>
-      <div className="label">Race</div>
+      <div className="label">Mechanics</div>
       <Select
         className="select"
         defaultValue={data.find(obj => obj._order === 1)}
@@ -26,13 +32,13 @@ export default function RaceFilters({ active, data, onClick }) {
   ) : null;
 }
 
-RaceFilters.propTypes = {
+MechanicsFilters.propTypes = {
   active: PropTypes.string,
   data: PropTypes.array,
   onClick: PropTypes.func
 };
 
-RaceFilters.defaultTypes = {
+MechanicsFilters.defaultTypes = {
   data: [],
   onClick: () => {}
 };

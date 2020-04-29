@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectClass,
   selectEnergy,
-  selectRace
+  selectMechanic,
+  selectRace,
+  selectSet
 } from 'features/filters/filters.slice';
 import { setResults } from 'features/filtered-results.slice';
 import ClassFilters from 'features/filters/ClassFilters';
@@ -12,24 +14,32 @@ import EnergyFilters from 'features/filters/EnergyFilters';
 import { useParams } from 'react-router-dom';
 import BackButton from 'components/BackButton';
 import RaceFilters from 'features/filters/RaceFilters';
+import MechanicsFilters from 'features/filters/MechanicsFilters';
+import SetFilters from './SetFilters';
 
 export default function Filters() {
   let { deckId } = useParams();
   const dispatch = useDispatch();
   const {
     availableCardClasses,
+    availableCardMechanics,
     availableCardRaces,
+    availableCardSets,
     selectedCardClass,
+    selectedCardMechanic,
     selectedCardRace,
+    selectedCardSet,
     selectedEnergyFilter
   } = useSelector(state => state.filters);
 
   const setDbCallback = useCallback(
-    (cardClass, cardRace, energyFilter) => {
+    (cardClass, cardMechanic, cardRace, cardSet, energyFilter) => {
       dispatch(
         setResults({
           cardClass: cardClass,
+          mechanic: cardMechanic,
           race: cardRace,
+          set: cardSet,
           energyFilter: energyFilter
         })
       );
@@ -38,10 +48,18 @@ export default function Filters() {
   );
 
   useEffect(() => {
-    setDbCallback(selectedCardClass, selectedCardRace, selectedEnergyFilter);
+    setDbCallback(
+      selectedCardClass,
+      selectedCardMechanic,
+      selectedCardRace,
+      selectedCardSet,
+      selectedEnergyFilter
+    );
   }, [
     selectedCardClass,
+    selectedCardMechanic,
     selectedCardRace,
+    selectedCardSet,
     selectedEnergyFilter,
     setDbCallback
   ]);
@@ -51,13 +69,23 @@ export default function Filters() {
       {deckId ? <BackButton /> : null}
       <ClassFilters
         active={selectedCardClass}
-        availableCardClasses={availableCardClasses}
+        data={availableCardClasses}
         onClick={event => dispatch(selectClass(event.target.value))}
       />
       <RaceFilters
         active={selectedCardRace}
-        availableCardRaces={availableCardRaces}
-        onClick={event => dispatch(selectRace(event.target.value))}
+        data={availableCardRaces}
+        onClick={selectedOption => dispatch(selectRace(selectedOption))}
+      />
+      <MechanicsFilters
+        active={selectedCardMechanic}
+        data={availableCardMechanics}
+        onClick={selectedOption => dispatch(selectMechanic(selectedOption))}
+      />
+      <SetFilters
+        active={selectedCardSet}
+        data={availableCardSets}
+        onClick={selectedOption => dispatch(selectSet(selectedOption))}
       />
       <EnergyFilters
         active={selectedEnergyFilter}
