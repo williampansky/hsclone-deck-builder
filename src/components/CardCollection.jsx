@@ -44,7 +44,7 @@ export default function CardCollection() {
   return (
     <React.Fragment>
       <Wrapper sidebarActive={sidebarActive}>
-        <GridWrapper sidebarActive={sidebarActive}>
+        <GridWrapper className="_scrollable" sidebarActive={sidebarActive}>
           {exists(database) ? (
             <CardGrid
               database={filteredResults}
@@ -145,4 +145,5 @@ const GridWrapper = styled.div`
   overflow-y: auto;
   width: ${p => (p.sidebarActive ? 'calc(100vw - 300px)' : 'calc(100vw)')};
   transition: width 150ms var(--animation-transition-cubic);
+  height: auto;
 `;

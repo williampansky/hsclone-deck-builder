@@ -80,7 +80,7 @@ export default function DeckBuilder() {
   return (
     <React.Fragment>
       <Wrapper sidebarActive={sidebarActive}>
-        <GridWrapper sidebarActive={sidebarActive}>
+        <GridWrapper className="_scrollable" sidebarActive={sidebarActive}>
           {deckClass ? (
             exists(database) ? (
               <CardGrid
@@ -186,4 +186,5 @@ const GridWrapper = styled.div`
   overflow-y: auto;
   width: ${p => (p.sidebarActive ? 'calc(100vw - 300px)' : 'calc(100vw)')};
   transition: width 150ms var(--animation-transition-cubic);
+  height: auto;
 `;
