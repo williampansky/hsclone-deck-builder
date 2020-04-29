@@ -71,6 +71,7 @@ export default function Filters() {
         active={selectedCardClass}
         data={availableCardClasses}
         onClick={event => dispatch(selectClass(event.target.value))}
+        onChange={selectedOption => dispatch(selectClass(selectedOption))}
       />
       <RaceFilters
         active={selectedCardRace}
@@ -90,6 +91,7 @@ export default function Filters() {
       <EnergyFilters
         active={selectedEnergyFilter}
         onClick={event => dispatch(selectEnergy(event.target.value))}
+        onChange={selectedOption => dispatch(selectEnergy(selectedOption))}
       />
     </Component>
   );

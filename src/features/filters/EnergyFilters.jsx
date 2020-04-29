@@ -1,52 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import EnergySlot from 'components/EnergySlot';
-import useElementSize from 'react-element-size';
 import { useMediaQuery } from 'react-responsive';
+import Select from 'react-select';
+import EnergySlot from 'components/EnergySlot';
 
-const Buttons = ({ active, availableCardClasses, onClick }) => {
-  return (
-    <React.Fragment>
-      <div className="flex">
-        {availableCardClasses
-          .map(obj => {
-            const { name, value } = obj;
-            return (
-              <button
-                className={active === value ? 'active' : ''}
-                key={name}
-                onClick={e => onClick(e)}
-                value={value}
-              >
-                {name}
-              </button>
-            );
-          })
-          .sort((a, b) => a._order - b._order)}
-      </div>
-    </React.Fragment>
-  );
-};
-
-const Selects = ({ active, availableCardClasses, onClick }) => {
-  return (
-    <select onChange={e => onClick(e)}>
-      {availableCardClasses
-        .map(obj => {
-          const { name, value } = obj;
-          return (
-            <option key={name} value={value}>
-              {name}
-            </option>
-          );
-        })
-        .sort((a, b) => a._order - b._order)}
-    </select>
-  );
-};
-
-export default function PlayerEnergy({ active, onClick }) {
+export default function PlayerEnergy({ active, onClick, onChange }) {
   const isBigScreen = useMediaQuery({ query: '(min-width: 1200px)' });
 
   return (
@@ -73,16 +32,32 @@ export default function PlayerEnergy({ active, onClick }) {
           })}
         </div>
       ) : (
-        <select onChange={e => onClick(e)}>
-          <option value={-1}>{`All`}</option>
-          {Array.from(Array(11)).map((_, index) => {
-            return (
-              <option key={index} value={index}>
-                {index}
-              </option>
-            );
-          })}
-        </select>
+        <div className="select-wrapper">
+          <div className="label">Energy Cost</div>
+          <Select
+            className="select"
+            clearValue={() => onChange({ label: `All`, value: -1 })}
+            defaultValue={`All`}
+            isClearable
+            isSearchable
+            menuPlacement="top"
+            onChange={selectedOption => onChange(selectedOption.value)}
+            options={[
+              { label: `All`, value: -1 },
+              { label: 1, value: 1 },
+              { label: 2, value: 2 },
+              { label: 3, value: 3 },
+              { label: 4, value: 4 },
+              { label: 5, value: 5 },
+              { label: 6, value: 6 },
+              { label: 7, value: 7 },
+              { label: 8, value: 8 },
+              { label: 9, value: 9 },
+              { label: `10+`, value: 10 }
+            ]}
+            width="100%"
+          />
+        </div>
       )}
     </Component>
   );
@@ -90,7 +65,8 @@ export default function PlayerEnergy({ active, onClick }) {
 
 PlayerEnergy.propTypes = {
   active: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  onChange: PropTypes.func
 };
 
 const Component = styled.div`
@@ -243,6 +219,22 @@ const Component = styled.div`
       height: 100%;
       opacity: 1;
     }
+  }
+
+  .select-wrapper .label {
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Verdana', monospace;
+    font-size: 10px;
+    margin: 0 0 4px;
+    text-align: left;
+    font-weight: normal;
+  }
+
+  .select-wrapper,
+  .select-wrapper .select {
+    width: 100%;
+    font-weight: normal;
   }
 
   /* prettier-ignore */

@@ -8,6 +8,7 @@ import CARDCLASS from 'enums/cardClass.enums';
 import replaceConstant from 'utils/replace-constants';
 import { useHistory, useParams } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
+import Select from 'react-select';
 
 const Buttons = ({
   active,
@@ -40,15 +41,15 @@ const Buttons = ({
           <div className="flex">
             {availableCardClasses
               .map(obj => {
-                const { name, value } = obj;
+                const { label, value } = obj;
                 return (
                   <button
                     className={active === value ? 'active' : ''}
-                    key={name}
+                    key={label}
                     onClick={e => onClick(e)}
                     value={value}
                   >
-                    <span>{name}</span>
+                    <span>{label}</span>
                   </button>
                 );
               })
@@ -98,7 +99,7 @@ const Selects = ({
   );
 };
 
-export default function ClassFilters({ active, data, onClick }) {
+export default function ClassFilters({ active, data, onClick, onChange }) {
   let { deckId } = useParams();
   const isBigScreen = useMediaQuery({ query: '(min-width: 1200px)' });
   const decks = useSelector(state => state.decks);
@@ -114,12 +115,22 @@ export default function ClassFilters({ active, data, onClick }) {
           onClick={onClick}
         />
       ) : (
-        <Selects
-          active={active}
-          availableCardClasses={data}
-          selectedCardClass={deck && deck.class}
-          onClick={onClick}
-        />
+        // <Selects
+        //   active={active}
+        //   availableCardClasses={data}
+        //   selectedCardClass={deck && deck.class}
+        //   onClick={onClick}
+        // />
+        <div className="select-wrapper">
+          <Select
+            className="select"
+            defaultValue={data.find(obj => obj._order === 0)}
+            menuPlacement="top"
+            onChange={selectedOption => onChange(selectedOption.value)}
+            options={data}
+            width="100%"
+          />
+        </div>
       )}
     </Component>
   ) : null;
@@ -128,7 +139,8 @@ export default function ClassFilters({ active, data, onClick }) {
 ClassFilters.propTypes = {
   active: PropTypes.string,
   data: PropTypes.array,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  onChange: PropTypes.func
 };
 
 ClassFilters.defaultTypes = {
@@ -143,14 +155,18 @@ const Component = styled.div`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  margin: 0 10px 0 0;
+  margin: 0;
   position: absolute;
   /* background: #444; */
   /* height: 40px; */
-  top: -22px;
+  top: -46px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   /* padding: 10px; */
+
+  @media (min-width: 1200px) {
+    top: -22px;
+  }
 
   @media (min-width: 1440px) {
     top: -26px;
@@ -241,5 +257,9 @@ const Component = styled.div`
 
   select {
     width: 100%;
+  }
+
+  .select-wrapper {
+    width: 300px;
   }
 `;
