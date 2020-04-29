@@ -26,18 +26,18 @@ export default function Filters() {
     availableCardRaces,
     availableCardSets,
     selectedCardClass,
-    selectedCardMechanic,
+    selectedCardMechanics,
     selectedCardRace,
     selectedCardSet,
     selectedEnergyFilter
   } = useSelector(state => state.filters);
 
   const setDbCallback = useCallback(
-    (cardClass, cardMechanic, cardRace, cardSet, energyFilter) => {
+    (cardClass, cardMechanics, cardRace, cardSet, energyFilter) => {
       dispatch(
         setResults({
           cardClass: cardClass,
-          mechanic: cardMechanic,
+          mechanics: cardMechanics,
           race: cardRace,
           set: cardSet,
           energyFilter: energyFilter
@@ -50,14 +50,14 @@ export default function Filters() {
   useEffect(() => {
     setDbCallback(
       selectedCardClass,
-      selectedCardMechanic,
+      selectedCardMechanics,
       selectedCardRace,
       selectedCardSet,
       selectedEnergyFilter
     );
   }, [
     selectedCardClass,
-    selectedCardMechanic,
+    selectedCardMechanics,
     selectedCardRace,
     selectedCardSet,
     selectedEnergyFilter,
@@ -78,7 +78,7 @@ export default function Filters() {
         onClick={selectedOption => dispatch(selectRace(selectedOption))}
       />
       <MechanicsFilters
-        active={selectedCardMechanic}
+        active={selectedCardMechanics}
         data={availableCardMechanics}
         onClick={selectedOption => dispatch(selectMechanic(selectedOption))}
       />

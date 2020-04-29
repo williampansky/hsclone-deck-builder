@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import DeckItem from 'components/DeckItem';
 import styled from 'styled-components';
-import placeholdersArray from 'placeholders-array';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import exists from 'utils/element.exists';
+import replaceConstant from 'utils/replace-constants';
 
 export default function Deck({
   board,
@@ -20,12 +20,10 @@ export default function Deck({
   const deck = decks[deckId];
   const deckClass = deck && deck.class;
 
-  function cardImage(id, set) {
-    if (!exists(id)) return;
-    if (placeholdersArray.includes(id))
-      return `url(assets/images/sets/PLACEHOLDER.jpg)`;
-
-    return `url(assets/images/sets/${set}/${id}-DECK.jpg)`;
+  function cardImage(cId, cSet) {
+    if (!exists(cId)) return;
+    const set = replaceConstant(cSet.replace(/(%)/g, ''));
+    return `url(assets/images/sets/${set}/${cId}-DECK.jpg)`;
   }
 
   function classBadge(string) {

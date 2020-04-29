@@ -16,7 +16,7 @@ export default function RaceFilters({ active, data, onClick }) {
       <div className="label">Race</div>
       <Select
         className="select"
-        defaultValue={data.find(obj => obj._order === 1)}
+        defaultValue={data.find(obj => obj._order === 0)}
         menuPlacement="top"
         onChange={selectedOption => onClick(selectedOption.value)}
         options={data}

@@ -9,22 +9,23 @@ import replaceConstant from 'utils/replace-constants';
 import { useHistory, useParams } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
 export default function MechanicsFilters({ active, data, onClick }) {
-  // const sortedData = data.sort((a, b) => {
-  //   if (a.label > b.label) return 1;
-  //   if (a.label < b.label) return -1;
-  //   return 1;
-  // });
+  const animatedComponents = makeAnimated();
 
   return data ? (
     <Component>
       <div className="label">Mechanics</div>
       <Select
         className="select"
-        defaultValue={data.find(obj => obj._order === 1)}
+        classNamePrefix="mechanics"
+        closeMenuOnSelect={false}
+        components={animatedComponents}
+        defaultValue={[]}
+        isMulti
         menuPlacement="top"
-        onChange={selectedOption => onClick(selectedOption.value)}
+        onChange={selectedOption => onClick(selectedOption)}
         options={data}
         width="100%"
       />
@@ -33,7 +34,7 @@ export default function MechanicsFilters({ active, data, onClick }) {
 }
 
 MechanicsFilters.propTypes = {
-  active: PropTypes.string,
+  active: PropTypes.array,
   data: PropTypes.array,
   onClick: PropTypes.func
 };
@@ -63,5 +64,10 @@ const Component = styled.div`
 
   .select {
     width: 100%;
+  }
+
+  .mechanics__value-container {
+    max-height: 40px;
+    overflow-y: auto;
   }
 `;

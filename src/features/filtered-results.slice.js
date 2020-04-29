@@ -9,7 +9,7 @@ const filteredResultsSlice = createSlice({
   initialState,
   reducers: {
     setResults(state, { payload }) {
-      const { cardClass, mechanic, race, set, energyFilter } = payload;
+      const { cardClass, mechanics, race, set, energyFilter } = payload;
       return Object.keys(CARD_DATABASE)
         .map(i => CARD_DATABASE[i])
         .filter(item => !item.isEntourage)
@@ -28,8 +28,20 @@ const filteredResultsSlice = createSlice({
           else return item.race === race;
         })
         .filter(item => {
-          if (mechanic === 'All') return item;
-          else if (item.mechanics.includes(mechanic)) return item;
+          function test(arr1, arr2) {
+            const [shortArr, longArr] =
+              arr1.length < arr2.length ? [arr1, arr2] : [arr2, arr1];
+            const longArrSet = new Set(longArr);
+            return shortArr.some(el => longArrSet.has(el));
+          }
+
+          if (mechanics.length === 0) return item;
+          else if (JSON.stringify(item.mechanics) === JSON.stringify(mechanics))
+            return item;
+          else if (test(item.mechanics, mechanics)) return item;
+          // else if (item.mechanics.filter(m => m === mechanics)) return item;
+          // else if (item.mechanics.find(m => m.includes(mechanics))) return item;
+          else return null;
         })
         .filter(item => {
           return item.cardClass === cardClass;
