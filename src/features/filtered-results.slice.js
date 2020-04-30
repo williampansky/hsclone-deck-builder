@@ -20,11 +20,11 @@ const filteredResultsSlice = createSlice({
           else return item.cost === energyFilter;
         })
         .filter(item => {
-          if (set === 'All') return item;
+          if (set === null) return item;
           else return item.set === set;
         })
         .filter(item => {
-          if (race === 'All') return item;
+          if (race === null) return item;
           else return item.race === race;
         })
         .filter(item => {

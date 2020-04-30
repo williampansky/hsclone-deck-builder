@@ -76,7 +76,7 @@ export default function Filters() {
       <RaceFilters
         active={selectedCardRace}
         data={availableCardRaces}
-        onClick={selectedOption => dispatch(selectRace(selectedOption))}
+        onChange={selectedOption => dispatch(selectRace(selectedOption))}
       />
       <MechanicsFilters
         active={selectedCardMechanics}
@@ -86,7 +86,7 @@ export default function Filters() {
       <SetFilters
         active={selectedCardSet}
         data={availableCardSets}
-        onClick={selectedOption => dispatch(selectSet(selectedOption))}
+        onChange={selectedOption => dispatch(selectSet(selectedOption))}
       />
       <EnergyFilters
         active={selectedEnergyFilter}

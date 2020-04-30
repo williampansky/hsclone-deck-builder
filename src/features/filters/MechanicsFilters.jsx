@@ -16,7 +16,7 @@ export default function MechanicsFilters({ active, data, onClick }) {
 
   return data ? (
     <Component>
-      <div className="label">Mechanics</div>
+      {/* <div className="label">Mechanics</div> */}
       <Select
         className="select"
         classNamePrefix="mechanics"
@@ -27,6 +27,7 @@ export default function MechanicsFilters({ active, data, onClick }) {
         menuPlacement="top"
         onChange={selectedOption => onClick(selectedOption)}
         options={data}
+        placeholder="Mechanics"
         width="100%"
       />
     </Component>

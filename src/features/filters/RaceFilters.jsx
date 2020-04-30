@@ -10,16 +10,22 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import Select from 'react-select';
 
-export default function RaceFilters({ active, data, onClick }) {
+export default function RaceFilters({ active, data, onChange }) {
   return data ? (
     <Component>
-      <div className="label">Race</div>
+      {/* <div className="label">Race</div> */}
       <Select
         className="select"
-        defaultValue={data.find(obj => obj._order === 0)}
+        isClearable
+        isSearchable
         menuPlacement="top"
-        onChange={selectedOption => onClick(selectedOption.value)}
+        onChange={selectedOption =>
+          selectedOption === null
+            ? onChange(null)
+            : onChange(selectedOption.value)
+        }
         options={data}
+        placeholder="Race"
         width="100%"
       />
     </Component>
@@ -29,12 +35,12 @@ export default function RaceFilters({ active, data, onClick }) {
 RaceFilters.propTypes = {
   active: PropTypes.string,
   data: PropTypes.array,
-  onClick: PropTypes.func
+  onChange: PropTypes.func
 };
 
 RaceFilters.defaultTypes = {
   data: [],
-  onClick: () => {}
+  onChange: () => {}
 };
 
 const Component = styled.div`

@@ -33,17 +33,18 @@ export default function PlayerEnergy({ active, onClick, onChange }) {
         </div>
       ) : (
         <div className="select-wrapper">
-          <div className="label">Energy Cost</div>
+          {/* <div className="label">Energy Cost</div> */}
           <Select
             className="select"
-            clearValue={() => onChange({ label: `All`, value: -1 })}
-            defaultValue={`All`}
             isClearable
             isSearchable
             menuPlacement="top"
-            onChange={selectedOption => onChange(selectedOption.value)}
+            onChange={selectedOption =>
+              selectedOption === null
+                ? onChange(-1)
+                : onChange(selectedOption.value)
+            }
             options={[
-              { label: `All`, value: -1 },
               { label: 1, value: 1 },
               { label: 2, value: 2 },
               { label: 3, value: 3 },
@@ -55,6 +56,7 @@ export default function PlayerEnergy({ active, onClick, onChange }) {
               { label: 9, value: 9 },
               { label: `10+`, value: 10 }
             ]}
+            placeholder="Energy Cost"
             width="100%"
           />
         </div>

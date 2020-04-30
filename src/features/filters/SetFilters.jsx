@@ -10,22 +10,23 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import Select from 'react-select';
 
-export default function SetFilters({ active, data, onClick }) {
-  // const sortedData = data.sort((a, b) => {
-  //   if (a.label > b.label) return 1;
-  //   if (a.label < b.label) return -1;
-  //   return 1;
-  // });
-
+export default function SetFilters({ active, data, onChange }) {
   return data ? (
     <Component>
-      <div className="label">Sets</div>
+      {/* <div className="label">Sets</div> */}
       <Select
         className="select"
-        defaultValue={data.find(obj => obj._order === 0)}
+        isClearable
+        isSearchable
+        label="Set"
         menuPlacement="top"
-        onChange={selectedOption => onClick(selectedOption.value)}
+        onChange={selectedOption =>
+          selectedOption === null
+            ? onChange(null)
+            : onChange(selectedOption.value)
+        }
         options={data}
+        placeholder="Set"
         width="100%"
       />
     </Component>
@@ -35,12 +36,12 @@ export default function SetFilters({ active, data, onClick }) {
 SetFilters.propTypes = {
   active: PropTypes.string,
   data: PropTypes.array,
-  onClick: PropTypes.func
+  onChange: PropTypes.func
 };
 
 SetFilters.defaultTypes = {
   data: [],
-  onClick: () => {}
+  onChange: () => {}
 };
 
 const Component = styled.div`
