@@ -78,3 +78,50 @@
     overflow-y: hidden !important;
   }
 }
+
+._scrollable.card-collection {
+  $size: 15px;
+  $little_version_ratio: 2;
+  $scrollbar-bg-color: rgba(255, 255, 255, 0.15);
+  $scrollbar-handler-color: rgba(255, 255, 255, 0.15);
+  $scrollbar-handler-color-hover: rgba(255, 255, 255, 0.25);
+  $scrollbar-coner-color: rgba(255, 255, 255, 0);
+
+  &::-webkit-scrollbar {
+    background: none;
+    width: $size;
+    height: $size;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: $scrollbar-bg-color;
+    border-radius: 0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: $size / 5;
+    background-color: $scrollbar-handler-color;
+    // background-image: url(https://cdnb.artstation.com/p/assets/images/images/007/345/507/large/paulina-janzen-dungeon-floor-texture-1.jpg?1505481642);
+    background-size: contain;
+    background-position: center;
+    background-repeat: repeat-y;
+    background-blend-mode: multiply;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    border-left: 1px solid rgba(0, 0, 0, 0.325);
+    border-right: 1px solid rgba(0, 0, 0, 0.325);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.625);
+
+    &:hover {
+      background-color: $scrollbar-handler-color-hover;
+      background-blend-mode: hard-light;
+      border-top: 1px solid rgba(255, 255, 255, 0.575);
+      border-left: 1px solid rgba(0, 0, 0, 0.625);
+      border-right: 1px solid rgba(0, 0, 0, 0.625);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.875);
+    }
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: $scrollbar-coner-color;
+  }
+}

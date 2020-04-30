@@ -44,7 +44,10 @@ export default function CardCollection() {
   return (
     <React.Fragment>
       <Wrapper sidebarActive={sidebarActive}>
-        <GridWrapper className="_scrollable" sidebarActive={sidebarActive}>
+        <GridWrapper
+          className="_scrollable card-collection"
+          sidebarActive={sidebarActive}
+        >
           {exists(database) ? (
             <CardGrid
               database={filteredResults}

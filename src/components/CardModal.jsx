@@ -35,9 +35,9 @@ export default function CardModal({
     >
       {modalObject !== null ? (
         <React.Fragment>
-          <div className="modal__dialog magictime vanishIn">
+          <div className="modal__dialog">
             <div className="flex">
-              <div className="card-wrapper">
+              <div className="card-wrapper uk-animation-slide-bottom-small">
                 <Card
                   artist={modalObject.artist}
                   attack={modalObject.attack}
@@ -69,7 +69,7 @@ export default function CardModal({
                   warcryNumber={modalObject.warcryNumber}
                 />
                 {!modalObject.elite ? (
-                  <div className="transformed-card">
+                  <div className="transformed-card uk-animation-slide-bottom-small">
                     <Card
                       artist={modalObject.artist}
                       attack={modalObject.attack}
@@ -103,7 +103,7 @@ export default function CardModal({
                   </div>
                 ) : null}
               </div>
-              <div className="info">
+              <div className="info magictime vanishIn">
                 <div className="text__value">
                   <h2 className="name">{modalObject.name}</h2>
                 </div>
@@ -277,6 +277,7 @@ const Modal = styled.div`
   }
 
   .card-wrapper {
+    animation-delay: 400ms;
     position: relative;
   }
 
@@ -295,6 +296,7 @@ const Modal = styled.div`
   }
 
   .card-wrapper > .transformed-card {
+    animation-delay: 600ms;
     position: absolute;
     z-index: 0;
     bottom: -4%;
@@ -332,17 +334,8 @@ const Modal = styled.div`
   }
 
   .info {
-    animation: fade 400ms ease-out forwards;
-    opacity: 0;
-
-    @keyframes fade {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
+    animation-delay: 50ms;
+    animation-duration: 600ms;
   }
 
   .info__list ul {
