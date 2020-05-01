@@ -85,7 +85,7 @@ Deck.defaultProps = {
 };
 
 const Component = styled.div`
-  padding: 0 10px;
+  padding: 0 20px;
   /* height: 100%; */
   width: 100%;
   margin: 0 auto;

@@ -89,24 +89,25 @@ export default function ChooseClass() {
             {availableCardClasses
               .filter(obj => obj.value !== CARDCLASS[0])
               .map((obj, idx) => {
+                const { label, value } = obj;
                 return (
                   <div
                     className="class__item magictime puffIn"
                     key={idx}
-                    onClick={() => handleClick(obj.value, deckId)}
+                    onClick={() => handleClick(value, deckId)}
                   >
                     {/* <div
                       className="avatar"
-                      style={{ backgroundImage: imageSrc(obj.value) }}
+                      style={{ backgroundImage: imageSrc(value) }}
                     /> */}
                     <div className="class__name">
-                      <h2 className="text__value">{obj.name}</h2>
+                      <h2 className="text__value">{label}</h2>
                     </div>
                     <div className="class__badge--wrapper">
                       <img
                         alt=""
                         className="class__badge"
-                        src={badgeSrc(obj.value)}
+                        src={badgeSrc(value)}
                       />
                     </div>
                   </div>

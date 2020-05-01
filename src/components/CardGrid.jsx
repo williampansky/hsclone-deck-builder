@@ -79,8 +79,8 @@ CardGrid.defaultProps = {
 const Grid = styled.article`
   display: grid;
   margin: 0 auto;
-  padding: 20px;
-  grid-gap: 20px;
+  padding: 20px 0 40px;
+  grid-gap: 40px 30px;
   grid-template-columns: repeat(
     auto-fill,
     minmax(calc(var(--card-height) / 1.4), 1fr)
@@ -89,7 +89,7 @@ const Grid = styled.article`
   & > div {
     position: relative;
     width: calc(var(--card-height) / 1.4);
-    margin: 0 auto 20px;
+    margin: 0 auto 0;
   }
 
   & > div .card__v3 {

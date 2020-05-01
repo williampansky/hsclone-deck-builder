@@ -217,6 +217,17 @@ export default function CardModal({
                       </a>
                     </div>
                   )}
+                  {modalObject.description && (
+                    <div className="description">
+                      <strong className="text__value">Description</strong>{' '}
+                      <div
+                        className="description__text"
+                        dangerouslySetInnerHTML={createMarkup(
+                          modalObject.description
+                        )}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -401,6 +412,20 @@ const Modal = styled.div`
     &:hover {
       text-decoration: none;
     }
+  }
+
+  .description {
+    margin-top: 1em;
+  }
+
+  .description__text {
+    color: white;
+    font-family: sans-serif;
+    max-width: 80%;
+    opacity: 0.75;
+    margin: 0.25em 0 0;
+    font-size: 0.825em;
+    line-height: 1.35;
   }
 `;
 
