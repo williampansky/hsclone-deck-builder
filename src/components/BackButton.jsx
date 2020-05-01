@@ -1,10 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { toggleSidebar } from 'features/sidebar/sidebar.slice';
-import { useHistory, useParams } from 'react-router-dom';
-import { removeDeck } from 'features/decks/decks.slice';
+import { useHistory } from 'react-router-dom';
 
 export default function BackButton() {
   let history = useHistory();

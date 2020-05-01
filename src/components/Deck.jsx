@@ -1,20 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import DeckItem from 'components/DeckItem';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import exists from 'utils/element.exists';
 import replaceConstant from 'utils/replace-constants';
+import DeckItem from 'components/DeckItem';
 
-export default function Deck({
-  board,
-  cardBackSrc,
-  data,
-  length,
-  playedCards,
-  onClick
-}) {
+export default function Deck({ data, length, onClick }) {
   let { deckId } = useParams();
   const decks = useSelector(state => state.decks);
   const deck = decks[deckId];
@@ -72,21 +65,19 @@ export default function Deck({
 }
 
 Deck.propTypes = {
-  board: PropTypes.string,
-  cardBackSrc: PropTypes.string,
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   length: PropTypes.number,
-  playedCards: PropTypes.array
+  onClick: PropTypes.func
 };
 
 Deck.defaultProps = {
   data: [],
-  length: 0
+  length: 0,
+  onClick: () => {}
 };
 
 const Component = styled.div`
   padding: 0 20px;
-  /* height: 100%; */
   width: 100%;
   margin: 0 auto;
   z-index: 1;

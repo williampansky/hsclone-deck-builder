@@ -9,31 +9,16 @@ import replaceConstant from 'utils/replace-constants';
 
 export default function EntourageCard({ data }) {
   const {
-    artist,
     attack,
-    cardClass,
-    collectible,
     cost,
-    elite,
-    entourage,
-    flavor,
     goldenImageSrc,
     health,
-    hideStats,
-    howToEarn,
-    howToEarnGolden,
     id,
     isGolden,
-    mechanics,
     name,
-    playRequirements,
     race,
     rarity,
     set,
-    sounds,
-    spellDamage,
-    spellType,
-    targetingArrowText,
     text,
     type,
     warcryNumber
@@ -172,75 +157,5 @@ export default function EntourageCard({ data }) {
 }
 
 EntourageCard.propTypes = {
-  artist: PropTypes.string,
-  attack: PropTypes.number,
-  cardClass: PropTypes.string,
-  collectible: PropTypes.bool,
-  cost: PropTypes.number,
-  elite: PropTypes.bool,
-  entourage: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
-  goldenImageSrc: PropTypes.string,
-  flavor: PropTypes.string,
-  health: PropTypes.number,
-  hideStats: PropTypes.bool,
-  howToEarn: PropTypes.string,
-  howToEarnGolden: PropTypes.string,
-  id: PropTypes.string,
-  imageSrc: PropTypes.string,
-  isGolden: PropTypes.bool,
-  mechanics: PropTypes.array,
-  name: PropTypes.string,
-  playRequirements: PropTypes.array,
-  race: PropTypes.string,
-  rarity: PropTypes.string,
-  set: PropTypes.string,
-  sounds: PropTypes.shape({
-    attackSound: PropTypes.string,
-    deathSound: PropTypes.string,
-    dropSound: PropTypes.string
-  }),
-  spellDamage: PropTypes.number,
-  spellType: PropTypes.string,
-  targetingArrowText: PropTypes.string,
-  text: PropTypes.string,
-  type: PropTypes.string,
-  warcryNumber: PropTypes.number,
-  dynamicSpellDamageText: PropTypes.number
-};
-
-EntourageCard.defaultProps = {
-  // card object props
-  artist: '',
-  attack: 0,
-  cardClass: '',
-  collectible: true,
-  cost: 0,
-  elite: false,
-  entourage: [],
-  flavor: null,
-  goldenImageSrc: null,
-  health: 1,
-  hideStats: false,
-  howToEarn: null,
-  howToEarnGolden: null,
-  id: null,
-  imageSrc: 'assets/images/card-image-placeholder.jpg',
-  mechanics: [],
-  name: '',
-  playRequirements: [],
-  race: '',
-  rarity: '',
-  set: '',
-  sounds: {
-    attackSound: null,
-    deathSound: null,
-    dropSound: null
-  },
-  spellDamage: 0,
-  targetingArrowText: null,
-  text: '',
-  type: null,
-
-  // incoming transformative props
-  isGolden: false
+  data: PropTypes.object
 };

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import placeholdersArray from 'placeholders-array';
 import RARITY from 'enums/rarity.enums';
 
 export default function DeckItem({

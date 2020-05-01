@@ -1,22 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import CARD_DATABASE from 'lib/utils/card-databse';
-import CARDCLASS from 'enums/cardClass.enums';
-import CardGrid from 'components/CardGrid';
-import CardModal from 'components/CardModal';
-import Deck from 'components/Deck';
-import exists from 'utils/element.exists';
-import PlayerEnergy from 'features/filters/EnergyFilters';
-import replaceConstant from 'utils/replace-constants';
-import replaceDynamicText from 'utils/replace-dynamic-text';
-import Filters from 'features/filters/Filters.container';
-import { selectClass } from 'features/filters/filters.slice';
-import { newDeck } from 'features/decks/decks.slice';
-import Sidebar from 'components/Sidebar';
-import SidebarActivator from 'components/SidebarActivator';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import { newDeck } from 'features/decks/decks.slice';
+import { selectClass } from 'features/filters/filters.slice';
+import CARDCLASS from 'enums/cardClass.enums';
+import exists from 'utils/element.exists';
+import Filters from 'features/filters/Filters.container';
+import Sidebar from 'components/Sidebar';
+import SidebarActivator from 'components/SidebarActivator';
 
 export default function ChooseClass() {
   let { deckId } = useParams();
@@ -25,37 +18,6 @@ export default function ChooseClass() {
   const { sidebarActive } = useSelector(state => state.sidebar);
   const { availableCardClasses } = useSelector(state => state.filters);
   const { selectedCardClass } = useSelector(state => state.filters);
-  const filteredResults = useSelector(state => state.filteredResults);
-  const database = useSelector(state => state.database);
-  const [selectedCards, setSelectedCards] = useState([]);
-  const [modalObject, setModalObject] = useState(null);
-
-  function calculateDeckLength(array) {
-    let amount = 0;
-    array.forEach(obj => {
-      amount = Math.abs(amount + obj._amount);
-    });
-    return amount;
-  }
-
-  function handleClass(card, db = selectedCards) {
-    if (calculateDeckLength(db) === 30) return 'locked';
-    const { id } = card;
-    const cardObj = db.find(o => o.id === id);
-    if (!exists(cardObj)) return;
-    const { _amount, elite } = cardObj;
-    return _amount === 2 || elite === true ? 'locked' : '';
-  }
-
-  function handleTooltipClick(obj) {
-    return setModalObject(obj);
-  }
-
-  function cardText(string, spellDmg) {
-    const replacedDynamicDmg = replaceDynamicText(string, spellDmg);
-    const replacedSymbols = replaceConstant(replacedDynamicDmg);
-    return replacedSymbols;
-  }
 
   function handleClick(string, param = deckId) {
     dispatch(selectClass(string));
@@ -69,6 +31,7 @@ export default function ChooseClass() {
     history.push(`/decks/${param}`);
   }
 
+  // eslint-disable-next-line no-unused-vars
   function imageSrc(string) {
     if (!exists(string)) return;
     const str = string.replace(/(%)/g, '');

@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import useElementSize from 'react-element-size';
+import Select from 'react-select';
 import { Switch, Route } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 import CARDCLASS from 'enums/cardClass.enums';
 import replaceConstant from 'utils/replace-constants';
-import { useHistory, useParams } from 'react-router-dom';
-import { useMediaQuery } from 'react-responsive';
-import Select from 'react-select';
 
 const Buttons = ({
   active,

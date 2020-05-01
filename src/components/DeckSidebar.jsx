@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { editDeckName, removeCard } from 'features/decks/decks.slice';
-import Deck from './Deck';
+import Deck from 'components/Deck';
 
 export default function DeckSidebar() {
   let { deckId } = useParams();

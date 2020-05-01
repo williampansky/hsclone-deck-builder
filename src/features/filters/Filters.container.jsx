@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,13 +9,13 @@ import {
   selectSet
 } from 'features/filters/filters.slice';
 import { setResults } from 'features/filtered-results.slice';
-import ClassFilters from 'features/filters/ClassFilters';
-import EnergyFilters from 'features/filters/EnergyFilters';
 import { useParams } from 'react-router-dom';
 import BackButton from 'components/BackButton';
-import RaceFilters from 'features/filters/RaceFilters';
+import ClassFilters from 'features/filters/ClassFilters';
+import EnergyFilters from 'features/filters/EnergyFilters';
 import MechanicsFilters from 'features/filters/MechanicsFilters';
-import SetFilters from './SetFilters';
+import RaceFilters from 'features/filters/RaceFilters';
+import SetFilters from 'features/filters/SetFilters';
 
 export default function Filters() {
   let { deckId } = useParams();

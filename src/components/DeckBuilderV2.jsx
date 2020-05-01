@@ -1,24 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import CARD_DATABASE from 'lib/utils/card-databse';
+import { addCard } from 'features/decks/decks.slice';
+import { selectClass } from 'features/filters/filters.slice';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import CARDCLASS from 'enums/cardClass.enums';
 import CardGrid from 'components/CardGrid';
 import CardModal from 'components/CardModal';
-import Deck from 'components/Deck';
-import exists from 'utils/element.exists';
-import PlayerEnergy from 'features/filters/EnergyFilters';
-import replaceConstant from 'utils/replace-constants';
-import replaceDynamicText from 'utils/replace-dynamic-text';
-import Filters from 'features/filters/Filters.container';
-import Sidebar from 'components/Sidebar';
-import SidebarActivator from 'components/SidebarActivator';
-import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { addCard } from 'features/decks/decks.slice';
 import ChooseClass from './ChooseClass';
 import DeleteDeckButton from './DeleteDeckButton';
-import { selectClass } from 'features/filters/filters.slice';
+import exists from 'utils/element.exists';
+import Filters from 'features/filters/Filters.container';
+import replaceConstant from 'utils/replace-constants';
+import replaceDynamicText from 'utils/replace-dynamic-text';
+import Sidebar from 'components/Sidebar';
 
 export default function DeckBuilder() {
   let { deckId } = useParams();

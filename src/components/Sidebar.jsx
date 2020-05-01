@@ -1,44 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import CARD_DATABASE from 'lib/utils/card-databse';
-import CARDCLASS from 'enums/cardClass.enums';
-import CardGrid from 'components/CardGrid';
-import CardModal from 'components/CardModal';
+import { Switch, Route } from 'react-router-dom';
 import DeckCollection from 'components/DeckCollection';
 import DeckSidebar from 'components/DeckSidebar';
-import Deck from 'components/Deck';
-import exists from 'utils/element.exists';
-import PlayerEnergy from 'features/filters/EnergyFilters';
-import replaceConstant from 'utils/replace-constants';
-import replaceDynamicText from 'utils/replace-dynamic-text';
 
-export default function Sidebar({ active, selectedCardClass }) {
-  function calculateDeckLength(array) {
-    let amount = 0;
-    array.forEach(obj => {
-      amount = Math.abs(amount + obj._amount);
-    });
-    return amount;
-  }
-
+export default function Sidebar({ active }) {
   return (
     <Component active={active}>
       <Switch>
         <Route path={`/decks/:deckId`} component={DeckSidebar} />
         <Route path={`/`} component={DeckCollection} />
       </Switch>
-      {/* <Deck
-            data={selectedCards}
-            length={calculateDeckLength(selectedCards)}
-            onClick={event => removeSelectedCardsCallback(event)}
-          /> */}
-      {/* <img
-        alt=""
-        className="background"
-        src="assets/images/ui/UI_Sidebar.png"
-      /> */}
     </Component>
   );
 }
