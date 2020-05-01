@@ -10,11 +10,14 @@ const sidebarSlice = createSlice({
   name: 'sidebar',
   initialState,
   reducers: {
+    setSidebar(state, { payload }) {
+      state.sidebarActive = payload;
+    },
     toggleSidebar(state) {
       state.sidebarActive = state.sidebarActive === true ? false : true;
     }
   }
 });
 
-export const { toggleSidebar } = sidebarSlice.actions;
+export const { setSidebar, toggleSidebar } = sidebarSlice.actions;
 export default sidebarSlice.reducer;
