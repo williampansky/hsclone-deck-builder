@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { editDeckName, removeCard } from 'features/decks/decks.slice';
 import Deck from 'components/Deck';
+import { setSidebar } from 'features/sidebar/sidebar.slice';
 
 export default function DeckSidebar() {
   let { deckId } = useParams();
@@ -11,6 +12,10 @@ export default function DeckSidebar() {
   const decks = useSelector(state => state.decks);
   const deck = decks[deckId];
   const selectedCards = deck && deck.cards;
+
+  useEffect(() => {
+    dispatch(setSidebar(true));
+  }, [dispatch]);
 
   const removeSelectedCardsCallback = useCallback(
     (event, deckID = deckId) => {
