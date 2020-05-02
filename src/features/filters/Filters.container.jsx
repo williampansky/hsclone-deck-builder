@@ -6,7 +6,8 @@ import {
   selectEnergy,
   selectMechanic,
   selectRace,
-  selectSet
+  selectSet,
+  selectRarity
 } from 'features/filters/filters.slice';
 import { setResults } from 'features/filtered-results.slice';
 import { useParams } from 'react-router-dom';
@@ -16,6 +17,7 @@ import EnergyFilters from 'features/filters/EnergyFilters';
 import MechanicsFilters from 'features/filters/MechanicsFilters';
 import RaceFilters from 'features/filters/RaceFilters';
 import SetFilters from 'features/filters/SetFilters';
+import RarityFilters from './RarityFilters';
 
 export default function Filters() {
   let { deckId } = useParams();
@@ -24,21 +26,24 @@ export default function Filters() {
     availableCardClasses,
     availableCardMechanics,
     availableCardRaces,
+    availableCardRarities,
     availableCardSets,
     selectedCardClass,
     selectedCardMechanics,
     selectedCardRace,
+    selectedCardRarity,
     selectedCardSet,
     selectedEnergyFilter
   } = useSelector(state => state.filters);
 
   const setDbCallback = useCallback(
-    (cardClass, cardMechanics, cardRace, cardSet, energyFilter) => {
+    (cardClass, cardMechanics, cardRace, cardRarity, cardSet, energyFilter) => {
       dispatch(
         setResults({
           cardClass: cardClass,
           mechanics: cardMechanics,
           race: cardRace,
+          rarity: cardRarity,
           set: cardSet,
           energyFilter: energyFilter
         })
@@ -52,6 +57,7 @@ export default function Filters() {
       selectedCardClass,
       selectedCardMechanics,
       selectedCardRace,
+      selectedCardRarity,
       selectedCardSet,
       selectedEnergyFilter
     );
@@ -59,6 +65,7 @@ export default function Filters() {
     selectedCardClass,
     selectedCardMechanics,
     selectedCardRace,
+    selectedCardRarity,
     selectedCardSet,
     selectedEnergyFilter,
     setDbCallback
@@ -87,6 +94,11 @@ export default function Filters() {
         active={selectedCardSet}
         data={availableCardSets}
         onChange={selectedOption => dispatch(selectSet(selectedOption))}
+      />
+      <RarityFilters
+        active={selectedCardRarity}
+        data={availableCardRarities}
+        onChange={selectedOption => dispatch(selectRarity(selectedOption))}
       />
       <EnergyFilters
         active={selectedEnergyFilter}

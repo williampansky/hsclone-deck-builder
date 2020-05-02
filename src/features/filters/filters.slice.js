@@ -4,6 +4,7 @@ import replaceConstant from 'utils/replace-constants';
 import RACE from 'enums/race.enums';
 import MECHANICS from 'enums/mechanics.enums';
 import SET from 'enums/set.enums';
+import RARITY from 'enums/rarity.enums';
 
 let initialState = {
   selectedCardClass: localStorage.getItem('selectedCardClass')
@@ -11,6 +12,7 @@ let initialState = {
     : CARDCLASS[1],
   selectedCardMechanics: [],
   selectedCardRace: null,
+  selectedCardRarity: null,
   selectedCardSet: null,
   selectedEnergyFilter: -1,
   availableCardClasses: [
@@ -47,6 +49,13 @@ let initialState = {
     { _order: 9, label: replaceConstant(RACE[8]), value: RACE[8] },
     { _order: 10, label: replaceConstant(RACE[9]), value: RACE[9] }
   ],
+  availableCardRarities: [
+    { _order: 1, label: replaceConstant(RARITY[1]), value: RARITY[1] },
+    { _order: 2, label: replaceConstant(RARITY[2]), value: RARITY[2] },
+    { _order: 3, label: replaceConstant(RARITY[3]), value: RARITY[3] },
+    { _order: 4, label: replaceConstant(RARITY[4]), value: RARITY[4] },
+    { _order: 5, label: replaceConstant(RARITY[5]), value: RARITY[5] }
+  ],
   availableCardSets: [
     { _order: 2, label: replaceConstant(SET[1]), value: SET[1] },
     { _order: 3, label: replaceConstant(SET[2]), value: SET[2] }
@@ -77,6 +86,9 @@ const filtersSlice = createSlice({
     selectRace(state, { payload }) {
       state.selectedCardRace = payload;
     },
+    selectRarity(state, { payload }) {
+      state.selectedCardRarity = payload;
+    },
     selectSet(state, { payload }) {
       state.selectedCardSet = payload;
     }
@@ -88,6 +100,7 @@ export const {
   selectEnergy,
   selectMechanic,
   selectRace,
+  selectRarity,
   selectSet
 } = filtersSlice.actions;
 export default filtersSlice.reducer;
