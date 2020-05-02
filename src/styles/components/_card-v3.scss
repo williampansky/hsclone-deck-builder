@@ -181,6 +181,44 @@
     width: calc(var(--card-height) / 1.4);
     image-rendering: pixelated;
   }
+
+  .card__mechanics__wrapper {
+    position: absolute;
+    top: auto;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+    width: 65%;
+    z-index: 1;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card__mechanics__wrapper .card__mechanic {
+    background: black;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    // box-sizing: content-box;
+    position: relative;
+
+    & + .card__mechanic {
+      margin-left: 10px;
+    }
+  }
+
+  .card__mechanics__wrapper .card__mechanic img {
+    filter: invert(1);
+    position: absolute;
+    height: 60%;
+  }
 }
 
 // prettier-ignore

@@ -155,6 +155,20 @@ export default function Card({
         />
       </div>
 
+      {/* <div className={`card__mechanics__wrapper`}>
+        {mechanics.map(m => {
+          return (
+            <div className="card__mechanic" key={m}>
+              <img
+                alt=""
+                className={`card__mechanic__image`}
+                src={`assets/icons/Mechanic-${m.replace(/%/g, '')}.png`}
+              />
+            </div>
+          );
+        })}
+      </div> */}
+
       {isGolden ? (
         <img
           alt=""

@@ -123,9 +123,17 @@ export default function CardModal({
                     {modalObject.mechanics.map((m, i) => {
                       return (
                         <div className="mechanic" key={i}>
-                          <p className="text__value mechanics">
-                            {replaceConstant(m)}
-                          </p>
+                          <div className="text__value mechanics">
+                            <img
+                              alt=""
+                              className={`icon`}
+                              src={`assets/icons/Mechanic-${m.replace(
+                                /%/g,
+                                ''
+                              )}.png`}
+                            />
+                            <span>{replaceConstant(m)}</span>
+                          </div>
                           <p className="mechanics mechanics__description">
                             <small>{getConstantDescription(m)}</small>
                           </p>
@@ -391,6 +399,15 @@ const Modal = styled.div`
 
   .mechanics {
     margin: 0 0 0.15em;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .mechanics img {
+    width: 5%;
+    margin-right: 10px;
   }
 
   .mechanics.mechanics__description {
